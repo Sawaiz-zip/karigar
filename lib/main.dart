@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: const MyHomePage(),
+    return MaterialApp(
+      home: const MyHomePage(),
     );
   }
 }
@@ -18,18 +19,15 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Colors.black,
     );
   }
 }
