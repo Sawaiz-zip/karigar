@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SizedBox(
-          height: 40,
+          height: 30,
           child: Center(
               child: Text(
                   'KARIGAR BOHOT ACHA HAII HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM'))),
