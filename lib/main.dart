@@ -28,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      body: Center(child: Text('KARIGAR')),
     );
   }
 }
