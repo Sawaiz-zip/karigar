@@ -28,13 +28,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          Center(child: Text('KARIGAR BOHOT ACHA HAII HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM')),
-          ElevatedButton(onPressed: (){}, child: Text("wadsakfd"))
-        ],
-      ),
-
+      body: SizedBox(
+          height: 40,
+          child: Center(
+              child: Text(
+                  'KARIGAR BOHOT ACHA HAII HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM'))),
     );
   }
 }
