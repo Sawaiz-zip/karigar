@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:karigar/screens/authentication.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -28,6 +29,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
 
+
+     floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => Authentication()));
+      }),
     );
   }
 }
