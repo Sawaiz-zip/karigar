@@ -94,6 +94,15 @@ flutter:
     - asset: fonts/Poppins-SemiBoldItalic.ttf
     - asset: fonts/Poppins-Thin.ttf
     - asset: fonts/Poppins-ThinItalic.ttf
+
+  - family: GideonRoman
+    fonts:
+    - asset: fonts/GideonRoman-Regular.ttf
+  
+  - family: MoonTime
+    fonts:
+    - asset: fonts/MoonTime-Regular-1.ttf
+  
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
