@@ -27,12 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: SizedBox(
-          height: 40,
-          child: Center(
-              child: Text(
-                  'KARIGAR BOHOT ACHA HAII HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM'))),
+
     );
   }
 }
