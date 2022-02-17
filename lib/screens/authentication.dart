@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:karigar/screens/models/authentication_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends StatefulWidget {
   const Authentication({Key? key}) : super(key: key);
@@ -11,6 +15,7 @@ class _AuthenticationState extends State<Authentication> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  bool _rememberMe = false;
 
   // ignore: non_constant_identifier_names
   final _name_validate = GlobalKey<FormState>();
@@ -19,8 +24,15 @@ class _AuthenticationState extends State<Authentication> {
   // ignore: non_constant_identifier_names
   final _password_validate = GlobalKey<FormState>();
 
-  final List _option = ['Hire', 'Sell'];
   int index = 0;
+  int signUp = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _loadUserEmailPassword();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +51,10 @@ class _AuthenticationState extends State<Authentication> {
                   onTap: () {
                     setState(() {
                       index = 0;
+                      _email.clear();
+                      _password.clear();
+                      _name.clear();
+                      _rememberMe = false;
                     });
                   },
                   child: Text('Hire',
@@ -58,6 +74,10 @@ class _AuthenticationState extends State<Authentication> {
                   onTap: () {
                     setState(() {
                       index = 1;
+                      _email.clear();
+                      _password.clear();
+                      _name.clear();
+                      _rememberMe = false;
                     });
                   },
                   child: Text('Sell',
@@ -83,18 +103,18 @@ class _AuthenticationState extends State<Authentication> {
                 _size.width * 0.1, _size.height * 0.1, _size.width * 0.2, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Hello,',
-                  style: TextStyle(
+                  authenticationContent[signUp].title,
+                  style: const TextStyle(
                     fontFamily: 'GideonRoman',
                     color: Colors.black,
                     fontSize: 50,
                   ),
                 ),
                 Text(
-                  'create a new account',
-                  style: TextStyle(
+                  authenticationContent[signUp].subtitle,
+                  style: const TextStyle(
                     fontFamily: 'MoonTime',
                     color: Colors.black,
                     fontSize: 40,
@@ -103,34 +123,36 @@ class _AuthenticationState extends State<Authentication> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-                _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
-            child: Form(
-              key: _name_validate,
-              child: TextFormField(
-                decoration: const InputDecoration(
-                    hintText: 'Name',
-                    hintStyle: TextStyle(fontFamily: 'Poppins')),
-                controller: _name,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Required Field';
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ),
+          signUp == 1
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(_size.width * 0.1,
+                      _size.height * 0.04, _size.width * 0.1, 0),
+                  child: Form(
+                    key: _name_validate,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          hintText: 'Name',
+                          hintStyle: TextStyle(fontFamily: 'Poppins')),
+                      controller: _name,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Required Field';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                )
+              : Container(),
           Padding(
             padding: EdgeInsets.fromLTRB(
                 _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
             child: Form(
               key: _email_validate,
               child: TextFormField(
-                decoration: const InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(fontFamily: 'Poppins')),
+                decoration: InputDecoration(
+                    hintText: authenticationContent[signUp].signUpEmail,
+                    hintStyle: const TextStyle(fontFamily: 'Poppins')),
                 controller: _email,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -166,6 +188,32 @@ class _AuthenticationState extends State<Authentication> {
               ),
             ),
           ),
+          signUp == 0
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(_size.width * 0.06,
+                      _size.height * 0.01, _size.width * 0.1, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Transform.scale(
+                        scale: 1.3,
+                        child: Checkbox(
+                          side: const BorderSide(color: Colors.black),
+                          shape: const CircleBorder(),
+                          checkColor: Colors.white,
+                          activeColor: Colors.black,
+                          value: _rememberMe,
+                          onChanged: _handleRememberMe,
+                        ),
+                      ),
+                      const Text('Remember Me',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                          )),
+                    ],
+                  ),
+                )
+              : Container(),
           Padding(
             padding: EdgeInsets.fromLTRB(
                 _size.width * 0.1, _size.height * 0.05, _size.width * 0.1, 0),
@@ -180,13 +228,18 @@ class _AuthenticationState extends State<Authentication> {
                     elevation: 7,
                     child: InkWell(
                       onTap: () async {
-                        if (_name_validate.currentState!.validate() &&
-                            _email_validate.currentState!.validate() &&
-                            _password_validate.currentState!.validate()) {}
+                        if (signUp == 1) {
+                          if (_name_validate.currentState!.validate() &&
+                              _email_validate.currentState!.validate() &&
+                              _password_validate.currentState!.validate()) {}
+                        } else if (signUp == 0) {
+                          if (_email_validate.currentState!.validate() &&
+                              _password_validate.currentState!.validate()) {}
+                        }
                       },
-                      child: const Center(
-                          child: Text('Sign Up',
-                              style: TextStyle(
+                      child: Center(
+                          child: Text(authenticationContent[signUp].loginSignup,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Poppins',
                                 fontSize: 20,
@@ -209,9 +262,10 @@ class _AuthenticationState extends State<Authentication> {
                     elevation: 7,
                     child: InkWell(
                       onTap: () async {},
-                      child: const Center(
-                          child: Text('Signup with Google',
-                              style: TextStyle(
+                      child: Center(
+                          child: Text(
+                              authenticationContent[signUp].loginSignupGoogle,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Poppins',
                                 fontSize: 15,
@@ -226,18 +280,33 @@ class _AuthenticationState extends State<Authentication> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Already have an account?',
-                  style: TextStyle(fontFamily: 'Poppins'),
+                Text(
+                  authenticationContent[signUp].dontHaveAnAccount,
+                  style: const TextStyle(fontFamily: 'Poppins'),
                 ),
                 const SizedBox(
                   width: 2,
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    'Log In',
-                    style: TextStyle(
+                  onTap: () {
+                    if (signUp == 0) {
+                      setState(() {
+                        signUp = 1;
+                        _email.clear();
+                        _password.clear();
+                        _name.clear();
+                      });
+                    } else {
+                      setState(() {
+                        signUp = 0;
+                        _email.clear();
+                        _password.clear();
+                      });
+                    }
+                  },
+                  child: Text(
+                    authenticationContent[signUp].buttonLoginSignup,
+                    style: const TextStyle(
                         fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                   ),
                 )
@@ -247,5 +316,38 @@ class _AuthenticationState extends State<Authentication> {
         ],
       ),
     );
+  }
+
+  void _handleRememberMe(bool? value) {
+    _rememberMe = value!;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', _email.text);
+        prefs.setString('password', _password.text);
+      },
+    );
+    setState(() {
+      _rememberMe = value;
+    });
+  }
+
+  //load email and password
+  void _loadUserEmailPassword() async {
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      if (_remeberMe) {
+        setState(() {
+          _rememberMe = true;
+        });
+        _email = _email;
+        _password = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
