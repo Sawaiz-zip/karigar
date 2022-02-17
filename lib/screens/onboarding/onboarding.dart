@@ -49,7 +49,7 @@ class _OnboardingState extends State<Onboarding> {
                       )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 5),
                       child: Center(
                         child: Text(
                           contents[i].discription,
@@ -71,7 +71,8 @@ class _OnboardingState extends State<Onboarding> {
               children: List.generate(
                   contents.length, (index) => buildDot(index, context))),
         ),
-        // ignore: deprecated_member_use
+        // ignore: deprecated_member_use\
+        SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.only(bottom: 0.0),
           child: SizedBox(
@@ -100,8 +101,8 @@ class _OnboardingState extends State<Onboarding> {
 
   Container buildDot(int index, BuildContext context) {
     return Container(
-      height: 20,
-      width: 20,
+      height: 10,
+      width: 10,
       margin: EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
           color: currentIndex == index ? Color(0xffF9A826) : Color(0xFFC4C4C4),
