@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/models/authentication_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends StatefulWidget {
   const Authentication({Key? key}) : super(key: key);
@@ -27,6 +28,13 @@ class _AuthenticationState extends State<Authentication> {
   int signUp = 1;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _loadUserEmailPassword();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
@@ -46,6 +54,7 @@ class _AuthenticationState extends State<Authentication> {
                       _email.clear();
                       _password.clear();
                       _name.clear();
+                      _rememberMe = false;
                     });
                   },
                   child: Text('Hire',
@@ -68,6 +77,7 @@ class _AuthenticationState extends State<Authentication> {
                       _email.clear();
                       _password.clear();
                       _name.clear();
+                      _rememberMe = false;
                     });
                   },
                   child: Text('Sell',
@@ -179,12 +189,29 @@ class _AuthenticationState extends State<Authentication> {
             ),
           ),
           signUp == 0
-              ? Row(
-                  children: [
-                    // Checkbox(value: _rememberMe, onChanged: () {
-
-                    // },),
-                  ],
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(_size.width * 0.06,
+                      _size.height * 0.01, _size.width * 0.1, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Transform.scale(
+                        scale: 1.3,
+                        child: Checkbox(
+                          side: const BorderSide(color: Colors.black),
+                          shape: const CircleBorder(),
+                          checkColor: Colors.white,
+                          activeColor: Colors.black,
+                          value: _rememberMe,
+                          onChanged: _handleRememberMe,
+                        ),
+                      ),
+                      const Text('Remember Me',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                          )),
+                    ],
+                  ),
                 )
               : Container(),
           Padding(
@@ -201,9 +228,14 @@ class _AuthenticationState extends State<Authentication> {
                     elevation: 7,
                     child: InkWell(
                       onTap: () async {
-                        if (_name_validate.currentState!.validate() &&
-                            _email_validate.currentState!.validate() &&
-                            _password_validate.currentState!.validate()) {}
+                        if (signUp == 1) {
+                          if (_name_validate.currentState!.validate() &&
+                              _email_validate.currentState!.validate() &&
+                              _password_validate.currentState!.validate()) {}
+                        } else if (signUp == 0) {
+                          if (_email_validate.currentState!.validate() &&
+                              _password_validate.currentState!.validate()) {}
+                        }
                       },
                       child: Center(
                           child: Text(authenticationContent[signUp].loginSignup,
@@ -284,5 +316,38 @@ class _AuthenticationState extends State<Authentication> {
         ],
       ),
     );
+  }
+
+  void _handleRememberMe(bool? value) {
+    _rememberMe = value!;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value);
+        prefs.setString('email', _email.text);
+        prefs.setString('password', _password.text);
+      },
+    );
+    setState(() {
+      _rememberMe = value;
+    });
+  }
+
+  //load email and password
+  void _loadUserEmailPassword() async {
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      if (_remeberMe) {
+        setState(() {
+          _rememberMe = true;
+        });
+        _email = _email;
+        _password = _password;
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
