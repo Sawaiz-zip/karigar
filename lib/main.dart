@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/authentication.dart';
+import 'package:karigar/screens/onboarding/onboarding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,10 +29,33 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => Authentication()));
-      }),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Authentication()));
+            },
+            child: Container(
+                color: Colors.grey,
+                height: 40,
+                width: 150,
+                child: Center(child: Text('Authentication Screen'))),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Onboarding()));
+            },
+            child: Container(
+                color: Colors.grey,
+                height: 40,
+                width: 150,
+                child: Center(child: Text('OnBoarding Screen'))),
+          ),
+        ],
+      ),
     );
   }
 }
