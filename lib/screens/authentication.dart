@@ -19,6 +19,9 @@ class _AuthenticationState extends State<Authentication> {
   // ignore: non_constant_identifier_names
   final _password_validate = GlobalKey<FormState>();
 
+  final List _option = ['Hire', 'Sell'];
+  int index = 0;
+
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -33,30 +36,47 @@ class _AuthenticationState extends State<Authentication> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () {},
-                  child: const Text('Hire',
+                  onTap: () {
+                    setState(() {
+                      index = 0;
+                    });
+                  },
+                  child: Text('Hire',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        color: Colors.black,
-                        //decoration: TextDecoration.underline
-                      )),
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight:
+                              index == 0 ? FontWeight.w500 : FontWeight.w300
+                          //decoration: TextDecoration.underline
+                          )),
                 ),
                 SizedBox(
                   width: _size.width * 0.08,
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: const Text('Sell',
+                  onTap: () {
+                    setState(() {
+                      index = 1;
+                    });
+                  },
+                  child: Text('Sell',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        color: Colors.black,
-                        //decoration: TextDecoration.underline
-                      )),
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight:
+                              index == 1 ? FontWeight.w500 : FontWeight.w300
+                          //decoration: TextDecoration.underline
+                          )),
                 )
               ],
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                index == 0 ? _size.width * 0.656 : _size.width * 0.81, 0, 0, 0),
+            child: const Text('_______'),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
@@ -202,7 +222,7 @@ class _AuthenticationState extends State<Authentication> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
-                _size.width * 0.1, _size.height * 0.18, _size.width * 0.1, 0),
+                _size.width * 0.1, _size.height * 0.15, _size.width * 0.1, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -217,7 +237,7 @@ class _AuthenticationState extends State<Authentication> {
                   onTap: () {},
                   child: const Text(
                     'Log In',
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                   ),
                 )
