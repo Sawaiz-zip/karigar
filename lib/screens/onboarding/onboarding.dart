@@ -44,7 +44,7 @@ class _OnboardingState extends State<Onboarding> {
                         contents[i].title,
                         style: TextStyle(
                           fontSize: 24,
-                          fontFamily: "poppins",
+                          fontFamily: "Poppins",
                         ),
                       )),
                     ),
@@ -56,7 +56,7 @@ class _OnboardingState extends State<Onboarding> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 11,
-                            fontFamily: "poppins",
+                            fontFamily: "Poppins",
                           ),
                         ),
                       ),
@@ -92,7 +92,12 @@ class _OnboardingState extends State<Onboarding> {
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
-          child: FlatButton(onPressed: () {}, child: Text("Skip")),
+          child: TextButton(
+              onPressed: () {},
+              child: Text(
+                "Skip",
+                style: TextStyle(color: Colors.black),
+              )),
         )
       ],
     ));
