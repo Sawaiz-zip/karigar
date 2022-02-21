@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/authentication.dart';
-import 'package:karigar/screens/onboarding.dart';
+import 'package:karigar/screens/on_boarding.dart';
 
 void main() {
   runApp(const MyApp());
