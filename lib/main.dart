@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/authentication.dart';
-import 'package:karigar/screens/models/onboarding.dart';
+import 'package:karigar/screens/onboarding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
