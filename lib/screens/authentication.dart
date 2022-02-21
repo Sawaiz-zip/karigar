@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:karigar/screens/models/authentication_model.dart';
+import 'package:karigar/models/authentication_model.dart';
 import 'package:karigar/screens/otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
