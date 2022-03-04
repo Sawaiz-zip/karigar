@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/on_boarding_model.dart';
+import 'authentication.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -13,11 +14,13 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+    PageController controller = PageController(viewportFraction: 1, keepPage: true);
     return Scaffold(
         body: Column(
       children: [
         Expanded(
           child: PageView.builder(
+            controller: controller,
               itemCount: contents.length,
               onPageChanged: (int index) {
                 setState(() {
@@ -78,7 +81,12 @@ class _OnboardingState extends State<Onboarding> {
             width: 100,
             child: ElevatedButton(
               child: Text("Next"),
-              onPressed: () {},
+              onPressed: () {
+              setState(() {
+               int index=currentIndex +1;
+                controller.jumpToPage(index);
+              });
+              },
               style: ElevatedButton.styleFrom(
                 elevation: 20,
                 shadowColor: Colors.black,
@@ -93,7 +101,11 @@ class _OnboardingState extends State<Onboarding> {
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
           child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+               setState(() {
+                 Navigator.of(context).push(
+                     MaterialPageRoute(builder: (context) => Authentication()));               });
+              },
               child: Text(
                 "Skip",
                 style: TextStyle(color: Colors.black),
