@@ -9,6 +9,9 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
+  final TextEditingController _password = TextEditingController();
+  final _password_validate = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -40,7 +43,30 @@ height: 180,
 
             ],),
         ),
-      )
+      ),
+      Form(
+        key: _password_validate,
+        child: TextFormField(
+          textInputAction: TextInputAction.go,
+          decoration: const InputDecoration(
+            hintText: 'Password',
+            hintStyle: TextStyle(fontFamily: 'Poppins'),
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black)),
+          ),
+          cursorColor: Colors.black,
+          controller: _password,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Required Field';
+            }
+            if (value.length < 5) {
+              return 'Password length must be greater than 5';
+            }
+            return null;
+          },
+        ),
+      ),
     ],
   ),
 ),
