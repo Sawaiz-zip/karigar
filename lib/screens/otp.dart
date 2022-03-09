@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -13,15 +12,14 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   final TextEditingController _phoneno = TextEditingController();
   final _phoneno_validate = GlobalKey<FormState>();
-  String country_code='+92';
+  String country_code = '+92';
 
   @override
   Widget build(BuildContext context) {
-
     final _size = MediaQuery.of(context).size;
 
     return Scaffold(
-     // resizeToAvoidBottomInset: false,   //new line
+      // resizeToAvoidBottomInset: false,   //new line
 
       body: SingleChildScrollView(
         child: Container(
@@ -49,8 +47,8 @@ class _OTPState extends State<OTP> {
                     padding: const EdgeInsets.all(8.0),
                     child: Stack(
                       children: [
-                        SvgPicture.asset("Images/circle_otp.svg"),
-                        SvgPicture.asset("Images/otp.svg")
+                        SvgPicture.asset("images/circle_otp.svg"),
+                        SvgPicture.asset("images/otp.svg")
                       ],
                     ),
                   ),
@@ -59,28 +57,34 @@ class _OTPState extends State<OTP> {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Continue with phone',style: TextStyle(
-                    fontSize: 24,fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w300
-                  ),),
+                  child: Text(
+                    'Continue with phone',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w300),
+                  ),
                 ),
               ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('We will send a One Time ' + '\n'
-                      'Password on this phone number',style: TextStyle(
-                      fontSize: 11.5,fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300
-                  ),textAlign: TextAlign.center,),
+                  child: Text(
+                    'We will send a One Time ' +
+                        '\n'
+                            'Password on this phone number',
+                    style: TextStyle(
+                        fontSize: 11.5,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w300),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
                 child: Container(
                   decoration: BoxDecoration(
-
                     border: Border(
                         bottom: BorderSide(
                       color: Colors.black,
@@ -88,11 +92,10 @@ class _OTPState extends State<OTP> {
                   ),
                   child: CountryCodePicker(
                     enabled: true,
-onChanged: (CountryCode value){
-                      country_code=value.dialCode!;
-print(country_code);
-                      },
-
+                    onChanged: (CountryCode value) {
+                      country_code = value.dialCode!;
+                      print(country_code);
+                    },
                     initialSelection: 'PK',
                     favorite: ['+92', 'PK'],
                     showCountryOnly: false,
@@ -100,8 +103,11 @@ print(country_code);
                     showOnlyCountryWhenClosed: true,
                     showFlagMain: true,
                     alignLeft: true,
-closeIcon: Icon(Icons.keyboard_arrow_down_sharp),
-textStyle: TextStyle(fontSize: 15,color: Colors.black,fontFamily: 'Poppins'),
+                    closeIcon: Icon(Icons.keyboard_arrow_down_sharp),
+                    textStyle: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Poppins'),
                     searchDecoration: InputDecoration(
                       hintText: 'Region',
                       hintStyle: TextStyle(fontFamily: 'Poppins'),
@@ -111,26 +117,30 @@ textStyle: TextStyle(fontSize: 15,color: Colors.black,fontFamily: 'Poppins'),
                   ),
                 ),
               ),
-SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
                   key: _phoneno_validate,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 8.0, left: 20, right: 20),
                     child: TextFormField(
                       textInputAction: TextInputAction.go,
                       keyboardType: TextInputType.number,
-                      decoration:  InputDecoration(
-                       prefixText:  country_code+" ",
-iconColor: Colors.black,
- suffixIconColor: Colors.black,
- prefixStyle: TextStyle(color: Colors.black),
- //                   hintText: '  Phone Number',
+                      decoration: InputDecoration(
+                        prefixText: country_code + " ",
+                        iconColor: Colors.black,
+                        suffixIconColor: Colors.black,
+                        prefixStyle: TextStyle(color: Colors.black),
+                        //                   hintText: '  Phone Number',
                         hintStyle: TextStyle(fontFamily: 'Poppins'),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black)),
-                    labelText: 'Phone No',labelStyle: TextStyle(color: Colors.black),
+                        labelText: 'Phone No',
+                        labelStyle: TextStyle(color: Colors.black),
                       ),
                       cursorColor: Colors.black,
                       controller: _phoneno,
@@ -155,7 +165,7 @@ iconColor: Colors.black,
                     child: Text("Next"),
                     onPressed: () {
                       _phoneno_validate.currentState!.validate();
-print(country_code+_phoneno.text);
+                      print(country_code + _phoneno.text);
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 20,
