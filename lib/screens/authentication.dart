@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/models/authentication_model.dart';
-import 'package:karigar/screens/otp.dart';
+import 'package:karigar/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends StatefulWidget {
@@ -29,16 +29,8 @@ class _AuthenticationState extends State<Authentication> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _loadUserEmailPassword();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // _focusNode.dispose();
-    super.dispose();
   }
 
   @override
@@ -259,19 +251,23 @@ class _AuthenticationState extends State<Authentication> {
                       elevation: 7,
                       child: InkWell(
                         onTap: () async {
-                          if (signUp == 1) {
-                            if (_name_validate.currentState!.validate() &&
-                                _email_validate.currentState!.validate() &&
-                                _password_validate.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const OTP()));
-                            }
-                          } else if (signUp == 0) {
-                            if (_email_validate.currentState!.validate() &&
-                                _password_validate.currentState!.validate()) {}
-                          }
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()));
+                          // if (signUp == 1) {
+                          //   if (_name_validate.currentState!.validate() &&
+                          //       _email_validate.currentState!.validate() &&
+                          //       _password_validate.currentState!.validate()) {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => const OTP()));
+                          //   }
+                          // } else if (signUp == 0) {
+                          //   if (_email_validate.currentState!.validate() &&
+                          //       _password_validate.currentState!.validate()) {}
+                          // }
                         },
                         child: Center(
                             child:
