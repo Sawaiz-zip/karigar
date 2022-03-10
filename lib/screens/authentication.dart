@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/models/authentication_model.dart';
 import 'package:karigar/screens/home_screen.dart';
+import 'package:karigar/screens/otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Authentication extends StatefulWidget {
@@ -254,7 +255,7 @@ class _AuthenticationState extends State<Authentication> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
+                                  builder: (context) => OTP()));
                           // if (signUp == 1) {
                           //   if (_name_validate.currentState!.validate() &&
                           //       _email_validate.currentState!.validate() &&
