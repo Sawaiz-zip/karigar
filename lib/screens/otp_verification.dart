@@ -107,6 +107,7 @@ class _Otp_verificationState extends State<Otp_verification> {
               child: SizedBox(
                 width: 150,
                 child: ElevatedButton(
+
                   child: Text("Verify & Proceed"),
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
