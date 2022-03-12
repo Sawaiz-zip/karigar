@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-
+import 'package:karigar/screens/otp_verification.dart';
+String phoneNo= "";
+String country_code = '+92';
 class OTP extends StatefulWidget {
   const OTP({Key? key}) : super(key: key);
 
@@ -12,7 +14,7 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   final TextEditingController _phoneno = TextEditingController();
   final _phoneno_validate = GlobalKey<FormState>();
-  String country_code = '+92';
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,8 @@ class _OTPState extends State<OTP> {
                     padding: const EdgeInsets.all(8.0),
                     child: Stack(
                       children: [
-                        SvgPicture.asset("images/circle_otp.svg"),
-                        SvgPicture.asset("images/otp.svg")
+                        SvgPicture.asset("assets/images/circle_otp.svg"),
+                        SvgPicture.asset("assets/images/otp.svg")
                       ],
                     ),
                   ),
@@ -148,7 +150,7 @@ class _OTPState extends State<OTP> {
                         if (value!.isEmpty) {
                           return 'Required Field';
                         }
-                        if (value.length < 10) {
+                        if (value.length !=10) {
                           return 'Incorrect phone number';
                         }
                         return null;
@@ -158,7 +160,7 @@ class _OTPState extends State<OTP> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(top: 150.0),
                 child: SizedBox(
                   width: 150,
                   child: ElevatedButton(
@@ -166,6 +168,17 @@ class _OTPState extends State<OTP> {
                     onPressed: () {
                       _phoneno_validate.currentState!.validate();
                       print(country_code + _phoneno.text);
+                      if( _phoneno_validate.currentState!.validate()==true)
+                        {
+                          setState(() {
+                            phoneNo= _phoneno.text;
+
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Otp_verification()));
+                        }
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 20,
