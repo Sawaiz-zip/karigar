@@ -317,6 +317,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+<<<<<<< HEAD
   visibility_detector:
     dependency: "direct main"
     description:
@@ -324,6 +325,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.2"
+=======
+>>>>>>> master
   win32:
     dependency: transitive
     description:
