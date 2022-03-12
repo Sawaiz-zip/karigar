@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/models/authentication_model.dart';
-import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -252,10 +251,8 @@ class _AuthenticationState extends State<Authentication> {
                       elevation: 7,
                       child: InkWell(
                         onTap: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OTP()));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => OTP()));
                           // if (signUp == 1) {
                           //   if (_name_validate.currentState!.validate() &&
                           //       _email_validate.currentState!.validate() &&

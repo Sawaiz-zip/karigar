@@ -82,7 +82,7 @@ class _Otp_verificationState extends State<Otp_verification> {
               borderColor: Color(0xFFE5E5E5),
               fillColor: Color(0xFFE5E5E5),
               cursorColor: Color(0xFFE5E5E5),
-              enabledBorderColor:     Color(0xFFE5E5E5),
+              enabledBorderColor: Color(0xFFE5E5E5),
               disabledBorderColor: Color(0xFFE5E5E5),
               //set to true to show as box or false to show as dash
               showFieldAsBox: true,
@@ -107,9 +107,9 @@ class _Otp_verificationState extends State<Otp_verification> {
               child: SizedBox(
                 width: 150,
                 child: ElevatedButton(
-
                   child: Text("Verify & Proceed"),
-                  onPressed: () {},
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen())),
                   style: ElevatedButton.styleFrom(
                     elevation: 20,
                     shadowColor: Colors.black,
