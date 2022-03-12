@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/cart.dart';
 import 'package:karigar/screens/electrician.dart';
+import 'package:karigar/themes/drawer.dart';
 import 'package:karigar/utils/assets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -217,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      drawer: Drawer(),
+      drawer: KarigarDrawer,
     );
   }
 }
