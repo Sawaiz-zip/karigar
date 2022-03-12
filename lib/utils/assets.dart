@@ -9,4 +9,8 @@ class Assets {
   static const String plumberCover = 'assets/images/plumber_cover.png';
   static const String carpenterCover = 'assets/images/carpenter_cover.png';
   static const String painterCover = 'assets/images/painter_cover.png';
+  static const String tvTechnicianCover =
+      'assets/images/tv_technician_cover.png';
+  static const String favouriteBlack =
+      'assets/images/icons/favourite_black.png';
 }
