@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/cart.dart';
+import 'package:karigar/screens/chat_bot.dart';
 import 'package:karigar/screens/electrician.dart';
 import 'package:karigar/themes/drawer.dart';
 import 'package:karigar/utils/assets.dart';
@@ -219,6 +220,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       drawer: KarigarDrawer,
+      floatingActionButton: FloatingActionButton(
+        elevation: 25,
+        heroTag: Text('Chat Bot'),
+        backgroundColor: Colors.transparent,
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ChatBot())),
+        child: Image.asset(Assets.chatBot),
+      ),
     );
   }
 }
