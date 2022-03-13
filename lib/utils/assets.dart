@@ -27,4 +27,9 @@ class Assets {
   static const String creditCardWhite =
       'assets/images/icons/credit_card_white.png';
   static const String logoutWhite = 'assets/images/icons/logout_white.png';
+  static const String chatBot = 'assets/images/icons/chat_bot.png';
+  static const String helpWhite = 'assets/images/icons/help_white.png';
+  static const String emojiCoverBlack =
+      'assets/images/icons/emoji_cover_black.png';
+  static const String sendBlack = 'assets/images/icons/send_black.png';
 }
