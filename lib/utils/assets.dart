@@ -32,4 +32,8 @@ class Assets {
   static const String emojiCoverBlack =
       'assets/images/icons/emoji_cover_black.png';
   static const String sendBlack = 'assets/images/icons/send_black.png';
+  static const String defaultElectricianServices =
+      'assets/images/default_electrician_services.png';
+  static const String minusGrey = 'assets/images/icons/minus_grey.png';
+  static const String plusGrey = 'assets/images/icons/plus_grey.png';
 }

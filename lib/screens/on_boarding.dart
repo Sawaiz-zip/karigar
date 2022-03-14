@@ -14,13 +14,14 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
-    PageController controller = PageController(viewportFraction: 1, keepPage: true);
+    PageController controller =
+        PageController(viewportFraction: 1, keepPage: true);
     return Scaffold(
         body: Column(
       children: [
         Expanded(
           child: PageView.builder(
-            controller: controller,
+              controller: controller,
               itemCount: contents.length,
               onPageChanged: (int index) {
                 setState(() {
@@ -82,10 +83,14 @@ class _OnboardingState extends State<Onboarding> {
             child: ElevatedButton(
               child: Text("Next"),
               onPressed: () {
-              setState(() {
-               int index=currentIndex +1;
-                controller.jumpToPage(index);
-              });
+                setState(() {
+                  int index = currentIndex + 1;
+                  if (index == contents.length) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Authentication()));
+                  } else
+                    controller.jumpToPage(index);
+                });
               },
               style: ElevatedButton.styleFrom(
                 elevation: 20,
@@ -102,9 +107,10 @@ class _OnboardingState extends State<Onboarding> {
           padding: const EdgeInsets.only(bottom: 10.0),
           child: TextButton(
               onPressed: () {
-               setState(() {
-                 Navigator.of(context).push(
-                     MaterialPageRoute(builder: (context) => Authentication()));               });
+                setState(() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Authentication()));
+                });
               },
               child: Text(
                 "Skip",

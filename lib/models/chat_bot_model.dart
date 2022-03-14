@@ -1,5 +1,3 @@
-import 'package:karigar/screens/chat_bot.dart';
-
 class ChatBotContent {
   String defaultText;
 

@@ -1,33 +1,41 @@
 import 'package:karigar/utils/assets.dart';
 
-class MotorContent {
+class ElectricianServices {
+  String name;
   String title;
   String description;
   String image;
 
-  MotorContent(
-      {required this.title, required this.description, required this.image});
+  ElectricianServices(
+      {required this.name,
+      required this.title,
+      required this.description,
+      required this.image});
 }
 
-List<MotorContent> motorContent = [
-  MotorContent(
+List<ElectricianServices> electricianServicesContent = [
+  ElectricianServices(
+      name: 'Motor',
       title: 'Motor Technician',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
       image: Assets.tvTechnicianCover),
-  MotorContent(
-      title: 'Fix Motor',
+  ElectricianServices(
+      name: 'Fridge',
+      title: 'Fridge Technician',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
       image: Assets.fixSomethingCover),
-  MotorContent(
-      title: 'More Motor Stuff',
+  ElectricianServices(
+      name: 'Machine',
+      title: 'Machine Technician',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
       image: Assets.tvTechnicianCover),
-  MotorContent(
-      title: 'Motor 4',
+  ElectricianServices(
+      name: 'TV',
+      title: 'TV Technician',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
-      image: Assets.fixSomethingCover),
+      image: Assets.tvTechnicianCover),
 ];
