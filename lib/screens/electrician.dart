@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:karigar/models/electrician/fridge_model.dart';
-import 'package:karigar/models/electrician/machine_model.dart';
-import 'package:karigar/models/electrician/motor_model.dart';
+import 'package:karigar/models/electrician/electrician_services_model.dart';
+import 'package:karigar/screens/electrician_services/fridge.dart';
+import 'package:karigar/screens/electrician_services/machine.dart';
+import 'package:karigar/screens/electrician_services/motor.dart';
+import 'package:karigar/screens/electrician_services/tv.dart';
 import 'package:karigar/themes/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:karigar/models/electrician/all_services_model.dart';
 import 'package:karigar/screens/cart.dart';
-import 'package:karigar/models/electrician_services_model.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Electrician extends StatefulWidget {
@@ -17,17 +17,11 @@ class Electrician extends StatefulWidget {
 }
 
 class _ElectricianState extends State<Electrician> {
+  final electricianServices = [Motor(), Fridge(), Machine(), TV()];
   PageController _pageController = PageController(
     initialPage: 0,
   );
-  int _displayDescription = 0;
   int _selectedService = 0;
-  List categories = [
-    allServicesContent,
-    motorContent,
-    fridgeContent,
-    machineContent
-  ];
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -108,102 +102,86 @@ class _ElectricianState extends State<Electrician> {
                       ]),
                 ),
               ),
-              Container(
-                height: 30,
-                child: Expanded(
-                  child: ListView(scrollDirection: Axis.horizontal, children: [
-                    for (int index = 0;
-                        index < electricianContent.length;
-                        index++)
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          onPressed: () {
-                            setState(() {
-                              _selectedService = index;
-                              _pageController.animateToPage(0,
-                                  duration: Duration(microseconds: 1),
-                                  curve: Curves.easeIn);
-                            });
-                          },
-                          child: AutoSizeText(
-                            electricianContent[index].service,
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: _selectedService == index
-                                    ? FontWeight.bold
-                                    : FontWeight.w300,
-                                color: Colors.black,
-                                fontSize: 12),
-                            maxLines: 1,
-                            maxFontSize: 12,
-                          ))
-                  ]),
+              Center(
+                child: Text(
+                  electricianServicesContent[_selectedService].name,
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                      fontSize: 15),
+                  maxLines: 1,
                 ),
-              ),
-              SizedBox(
-                height: 50,
               ),
               Container(
                 height: 400,
-                child: Expanded(
-                  flex: 1,
-                  child: PageView.builder(
-                      itemCount: categories[_selectedService].length,
-                      scrollDirection: Axis.horizontal,
-                      controller: _pageController,
-                      onPageChanged: (index) {
-                        setState(() {
-                          _displayDescription = index;
-                        });
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return Stack(
-                          children: [
-                            Container(
-                              height: 330,
-                              margin: const EdgeInsets.all(20),
-                              width: 250,
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(40),
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          categories[_selectedService][index]
-                                              .image)),
-                                  color: Color(0xB2FFB8B8)),
+                child: PageView.builder(
+                    itemCount: electricianServicesContent.length,
+                    scrollDirection: Axis.horizontal,
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _selectedService = index;
+                      });
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Stack(
+                        children: [
+                          Center(
+                            child: InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => electricianServices[
+                                          _selectedService])),
+                              child: Container(
+                                  height: 330,
+                                  margin: const EdgeInsets.all(20),
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(40),
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            electricianServicesContent[
+                                                    _selectedService]
+                                                .image)),
+                                    color: Color.fromRGBO(239, 239, 239, 1),
+                                  )),
                             ),
-                            Positioned(
-                              bottom: 30,
-                              left: 125,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Image.asset(Assets.favouriteBlack),
-                              ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 155,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Image.asset(Assets.favouriteBlack),
                             ),
-                          ],
-                        );
-                      }),
-                ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: 30,
               ),
               Text(
-                categories[_selectedService][_displayDescription].title,
+                electricianServicesContent[_selectedService].title,
                 style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18,
                     fontWeight: FontWeight.w400),
               ),
               AutoSizeText(
-                categories[_selectedService][_displayDescription].description,
+                electricianServicesContent[_selectedService].description,
                 style: TextStyle(fontSize: 9),
                 maxFontSize: 12,
                 maxLines: 4,
@@ -211,7 +189,7 @@ class _ElectricianState extends State<Electrician> {
               SizedBox(
                 height: 10,
               ),
-              Image.asset(Assets.arrow)
+              Image.asset(Assets.arrow),
             ]),
       ),
       drawer: KarigarDrawer,
