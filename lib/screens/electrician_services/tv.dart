@@ -1,6 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
+import 'package:karigar/screens/cart.dart';
 import 'package:karigar/utils/assets.dart';
 
 class TV extends StatefulWidget {
@@ -18,11 +22,28 @@ class _TVState extends State<TV> {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.find<CartController>();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
+          actions: [
+            Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Badge(
+                  badgeContent: Text(cartController.totalCount.toString()),
+                  position: BadgePosition.topEnd(end: 2, top: 4),
+                  elevation: 0,
+                  child: IconButton(
+                    icon: Image.asset(
+                      Assets.cartBlack,
+                    ),
+                    onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cart())),
+                  ),
+                )),
+          ],
           leading: IconButton(
             icon: Image.asset(Assets.backArrowBlack),
             onPressed: () => Navigator.pop(context),
@@ -107,8 +128,10 @@ class _TVState extends State<TV> {
                                           if (tvContent[index].counter - 1 < 0)
                                             ;
                                           else
-                                            setState(() =>
-                                                tvContent[index].counter--);
+                                            setState(() {
+                                              tvContent[index].counter--;
+                                              cartController.decrement();
+                                            });
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -119,8 +142,10 @@ class _TVState extends State<TV> {
                                       InkWell(
                                         splashColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
-                                        onTap: () => setState(
-                                            () => tvContent[index].counter++),
+                                        onTap: () => setState(() {
+                                          tvContent[index].counter++;
+                                          cartController.increment();
+                                        }),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image.asset(Assets.plusGrey),
