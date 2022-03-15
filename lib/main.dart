@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/screens/on_boarding.dart';
 
 void main() {
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
   }
@@ -26,6 +29,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final cartController = Get.put(CartController());
     return Onboarding();
   }
 }

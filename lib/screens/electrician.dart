@@ -1,4 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/models/electrician/electrician_services_model.dart';
 import 'package:karigar/screens/electrician_services/fridge.dart';
 import 'package:karigar/screens/electrician_services/machine.dart';
@@ -24,6 +27,7 @@ class _ElectricianState extends State<Electrician> {
   int _selectedService = 0;
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.find<CartController>();
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,11 +39,21 @@ class _ElectricianState extends State<Electrician> {
           );
         }),
         actions: [
-          InkWell(
-            onTap: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Cart())),
-            child: Image.asset(Assets.cartBlack),
-          )
+          Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Badge(
+                badgeContent:
+                    Obx(() => Text(cartController.totalCount.toString())),
+                position: BadgePosition.topEnd(end: 2, top: 4),
+                elevation: 0,
+                child: IconButton(
+                  icon: Image.asset(
+                    Assets.cartBlack,
+                  ),
+                  onPressed: () => Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Cart())),
+                ),
+              )),
         ],
         backgroundColor: Colors.white,
         elevation: 0,
