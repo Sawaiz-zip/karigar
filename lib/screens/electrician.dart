@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/models/electrician/electrician_services_model.dart';
 import 'package:karigar/screens/electrician_services/fridge.dart';
