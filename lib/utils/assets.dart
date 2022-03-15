@@ -39,4 +39,8 @@ class Assets {
   static const String crossGrey = 'assets/images/icons/cross_grey.png';
   static const String promoCodeBlack =
       'assets/images/icons/promo_code_black.png';
+  static const String feedbackStarWhite =
+      'assets/images/icons/feedback_star_white.png';
+  static const String feedbackStarYellow =
+      'assets/images/icons/feedback_star_yellow.png';
 }
