@@ -32,7 +32,8 @@ class _MotorState extends State<Motor> {
             Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Badge(
-                  badgeContent: Text(cartController.totalCount.toString()),
+                  badgeContent:
+                      Obx(() => Text(cartController.totalCount.toString())),
                   position: BadgePosition.topEnd(end: 2, top: 4),
                   elevation: 0,
                   child: IconButton(
@@ -102,7 +103,7 @@ class _MotorState extends State<Motor> {
                                 width: 10,
                               ),
                               Text(
-                                motorContent[index].amount,
+                                '${motorContent[index].amount} PKR',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 12,
