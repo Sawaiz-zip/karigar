@@ -6,6 +6,7 @@ import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/screens/cart.dart';
 import 'package:karigar/screens/chat_bot.dart';
 import 'package:karigar/screens/electrician.dart';
+import 'package:karigar/screens/job_update.dart';
 import 'package:karigar/themes/drawer.dart';
 import 'package:karigar/utils/assets.dart';
 
@@ -33,18 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           Padding(
               padding: const EdgeInsets.all(2.0),
-              child: Badge(
-                badgeContent:
-                    Obx(() => Text(cartController.totalCount.toString())),
-                position: BadgePosition.topEnd(end: 2, top: 4),
-                elevation: 0,
-                child: IconButton(
-                  icon: Image.asset(
-                    Assets.cartBlack,
-                  ),
-                  onPressed: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Cart())),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent,
+                    shadowColor: Colors.transparent),
+                child: Text(
+                  'Job Update',
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400),
                 ),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => JobUpdate())),
               )),
         ],
         backgroundColor: Colors.white,
