@@ -31,7 +31,8 @@ class _MachineState extends State<Machine> {
             Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Badge(
-                  badgeContent: Text(cartController.totalCount.toString()),
+                  badgeContent:
+                      Obx(() => Text(cartController.totalCount.toString())),
                   position: BadgePosition.topEnd(end: 2, top: 4),
                   elevation: 0,
                   child: IconButton(
@@ -102,7 +103,7 @@ class _MachineState extends State<Machine> {
                                 width: 10,
                               ),
                               Text(
-                                machineContent[index].amount,
+                                '${machineContent[index].amount} PKR',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 12,

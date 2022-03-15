@@ -32,7 +32,8 @@ class _TVState extends State<TV> {
             Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Badge(
-                  badgeContent: Text(cartController.totalCount.toString()),
+                  badgeContent:
+                      Obx(() => Text(cartController.totalCount.toString())),
                   position: BadgePosition.topEnd(end: 2, top: 4),
                   elevation: 0,
                   child: IconButton(
@@ -102,7 +103,7 @@ class _TVState extends State<TV> {
                                 width: 10,
                               ),
                               Text(
-                                tvContent[index].amount,
+                                '${tvContent[index].amount} PKR',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 12,

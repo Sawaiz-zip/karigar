@@ -3,7 +3,7 @@ import 'package:karigar/utils/assets.dart';
 class MotorContent {
   String title;
   String description;
-  String amount;
+  int amount;
   String image;
   int counter = 0;
 
@@ -20,29 +20,29 @@ List<MotorContent> motorContent = [
       title: 'New Motor Installation',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.",
-      amount: "Rs.2500/-",
+      amount: 2500,
       image: Assets.defaultElectricianServices),
   MotorContent(
       title: 'Motor Repair',
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit",
-      amount: "Rs.1500/-",
+      amount: 500,
       image: Assets.defaultElectricianServices),
   MotorContent(
       title: 'Motor Cover Change',
       description: "Lorem ipsum dolor sit amet, consectetur",
-      amount: "Rs.500/-",
+      amount: 500,
       image: Assets.defaultElectricianServices),
   MotorContent(
     title: 'Short Circuit Repair',
     description:
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor",
-    amount: "Rs.300/-",
+    amount: 300,
     image: Assets.defaultElectricianServices,
   ),
   MotorContent(
       title: 'Fuse Change',
       description:
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut",
-      amount: "Rs.250/-",
+      amount: 250,
       image: Assets.defaultElectricianServices),
 ];

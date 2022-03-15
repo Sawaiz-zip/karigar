@@ -103,7 +103,7 @@ class _FridgeState extends State<Fridge> {
                                 width: 10,
                               ),
                               Text(
-                                fridgeContent[index].amount,
+                                '${fridgeContent[index].amount} PKR',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 12,

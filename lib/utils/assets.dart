@@ -36,4 +36,7 @@ class Assets {
       'assets/images/default_electrician_services.png';
   static const String minusGrey = 'assets/images/icons/minus_grey.png';
   static const String plusGrey = 'assets/images/icons/plus_grey.png';
+  static const String crossGrey = 'assets/images/icons/cross_grey.png';
+  static const String promoCodeBlack =
+      'assets/images/icons/promo_code_black.png';
 }
