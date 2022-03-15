@@ -6,6 +6,7 @@ import 'package:karigar/models/electrician/fridge_model.dart';
 import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
+import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Cart extends StatefulWidget {
@@ -22,11 +23,11 @@ class _CartState extends State<Cart> {
   int subTotal = 0;
   int visitingFee = 200;
   final cartController = Get.find<CartController>();
+  //bool _promoCodeValid = false;
+  final _promoCodeValidator = GlobalKey<FormState>();
   TextEditingController _promoCode = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -217,24 +218,67 @@ class _CartState extends State<Cart> {
                                 padding: const EdgeInsets.only(left: 15),
                                 child: SizedBox(
                                   width: 250,
-                                  child: TextField(
-                                    controller: _promoCode,
-                                    cursorColor: Colors.grey,
-                                    decoration: InputDecoration.collapsed(
-                                        hintText: 'Add promo code',
-                                        hintStyle: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300)),
+                                  child: Form(
+                                    key: _promoCodeValidator,
+                                    child: TextFormField(
+                                      controller: _promoCode,
+                                      validator: (value) {
+                                        // for (int i = 0;
+                                        //     i < promoCodeContent.length;
+                                        //     i++) {
+                                        //   if (_promoCode.value ==
+                                        //       promoCodeContent[i]) {
+                                        //     setState(
+                                        //         () => _promoCodeValid = true);
+                                        //     return null;
+                                        //   } else
+                                        //     setState(
+                                        //         () => _promoCodeValid = false);
+                                        // }
+
+                                        return null;
+                                      },
+                                      cursorColor: Colors.grey,
+                                      decoration: InputDecoration.collapsed(
+                                          hintText: 'Add promo code',
+                                          hintStyle: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300)),
+                                    ),
                                   ),
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // if (_promoCodeValidator.currentState!
+                                    //     .validate()) {
+                                    //   setState(() => _promoCodeValid = true);
+
+                                    //   print(_promoCodeValid);
+                                    // } else {
+                                    //   setState(() => _promoCodeValid = false);
+                                    //   print(_promoCodeValid);
+                                    // }
+                                  },
                                   icon: Image.asset(Assets.promoCodeBlack))
                             ]),
                       ),
                     ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       color: _promoCodeValid
+                    //           ? Colors.greenAccent.shade100
+                    //           : Colors.redAccent.shade100),
+                    //   child: AnimatedCrossFade(
+                    //     firstChild: Text('InValid'),
+                    //     secondChild: Text('Valid'),
+                    //     crossFadeState: _promoCodeValid
+                    //         ? CrossFadeState.showSecond
+                    //         : CrossFadeState.showFirst,
+                    //     duration: Duration(seconds: 0),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
@@ -307,21 +351,32 @@ class _CartState extends State<Cart> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(35.0),
-                      child: Container(
-                        width: 250,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(26),
-                        ),
-                        height: 45,
-                        child: Center(
-                          child: Text(
-                            'Proceed to checkout',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white,
-                                fontSize: 14),
+                      child: GestureDetector(
+                        onTap: () => {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => HomeScreen(),
+                            ),
+                            (route) => false,
+                          )
+                        },
+                        child: Container(
+                          width: 250,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(26),
+                          ),
+                          height: 45,
+                          child: Center(
+                            child: Text(
+                              'Proceed to checkout',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                  fontSize: 14),
+                            ),
                           ),
                         ),
                       ),

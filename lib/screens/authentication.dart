@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:karigar/models/authentication/customers_authentication_model.dart';
 import 'package:karigar/models/authentication_model.dart';
+import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,7 @@ class _AuthenticationState extends State<Authentication> {
   //final _focusNode = FocusNode();
   int index = 0;
   int signUp = 1;
+  int loginEmailIndex = -1;
 
   @override
   void initState() {
@@ -171,6 +174,22 @@ class _AuthenticationState extends State<Authentication> {
                   cursorColor: Colors.black,
                   controller: _email,
                   validator: (value) {
+                    if (signUp == 0 && index == 0) // Customer Login
+                    {
+                      for (int i = 0;
+                          i < customersAuthenticationContent.length;
+                          i++) {
+                        if (value == customersAuthenticationContent[i].email) {
+                          setState(() {
+                            loginEmailIndex = i;
+                          });
+                          return null;
+                        }
+                        if (i == customersAuthenticationContent.length - 1) {
+                          return 'Invalid Email';
+                        }
+                      }
+                    }
                     if (value!.isEmpty) {
                       return 'Required Field';
                     }
@@ -200,11 +219,14 @@ class _AuthenticationState extends State<Authentication> {
                   cursorColor: Colors.black,
                   controller: _password,
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Required Field';
-                    }
-                    if (value.length < 5) {
-                      return 'Password length must be greater than 5';
+                    if (signUp == 0 && index == 0) // Customer
+                    {
+                      if (value ==
+                          customersAuthenticationContent[loginEmailIndex]
+                              .password)
+                        return null;
+                      else
+                        return 'Invalid';
                     }
                     return null;
                   },
@@ -253,19 +275,24 @@ class _AuthenticationState extends State<Authentication> {
                         onTap: () async {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => OTP()));
-                          // if (signUp == 1) {
-                          //   if (_name_validate.currentState!.validate() &&
-                          //       _email_validate.currentState!.validate() &&
-                          //       _password_validate.currentState!.validate()) {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) => const OTP()));
-                          //   }
-                          // } else if (signUp == 0) {
-                          //   if (_email_validate.currentState!.validate() &&
-                          //       _password_validate.currentState!.validate()) {}
-                          // }
+                          if (signUp == 1) {
+                            if (_name_validate.currentState!.validate() &&
+                                _email_validate.currentState!.validate() &&
+                                _password_validate.currentState!.validate()) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const OTP()));
+                            }
+                          } else if (signUp == 0) {
+                            if (_email_validate.currentState!.validate() &&
+                                _password_validate.currentState!.validate()) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()));
+                            }
+                          }
                         },
                         child: Center(
                             child:

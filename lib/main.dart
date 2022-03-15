@@ -29,6 +29,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final cartController = Get.put(CartController());
     return Onboarding();
   }
