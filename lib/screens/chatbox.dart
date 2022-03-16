@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:karigar/screens/customer_feedback.dart';
 
 import 'package:karigar/utils/assets.dart';
 
@@ -49,6 +50,43 @@ class _ChatBoxState extends State<ChatBox> {
         ],
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                height: 40,
+                width: 120,
+                child: Material(
+                  borderRadius: BorderRadius.circular(26),
+                  color: Color.fromRGBO(241, 240, 244, 1),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Colors.transparent,
+                        alignment: Alignment.center,
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        onSurface: Colors.transparent),
+                    child: Text(
+                      'Rate Freelancer',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerFeedback())),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
         Padding(
           padding: const EdgeInsets.all(30.0),
           child: Container(
