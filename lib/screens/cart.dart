@@ -6,7 +6,9 @@ import 'package:karigar/models/electrician/fridge_model.dart';
 import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
+import 'package:karigar/screens/customer_feedback.dart';
 import 'package:karigar/screens/home_screen.dart';
+import 'package:karigar/screens/job_update.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Cart extends StatefulWidget {

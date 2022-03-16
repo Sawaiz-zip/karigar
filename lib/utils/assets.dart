@@ -39,4 +39,19 @@ class Assets {
   static const String crossGrey = 'assets/images/icons/cross_grey.png';
   static const String promoCodeBlack =
       'assets/images/icons/promo_code_black.png';
+  static const String feedbackStarWhite =
+      'assets/images/icons/feedback_star_white.png';
+  static const String feedbackStarYellow =
+      'assets/images/icons/feedback_star_yellow.png';
+  static const String ratingsStar = 'assets/images/icons/ratings_star.png';
+  static const String defaultOneStarFreelancer =
+      'assets/images/default_one_star_freelancer.jpeg';
+  static const String defaultTwoStarFreelancer =
+      'assets/images/default_two_star_freelancer.jpeg';
+  static const String defaultThreeStarFreelancer =
+      'assets/images/default_three_star_freelancer.jpeg';
+  static const String defaultFourStarFreelancer =
+      'assets/images/default_four_star_freelancer.jpg';
+  static const String defaultFiveStarFreelancer =
+      'assets/images/default_five_star_freelancer.jpg';
 }
