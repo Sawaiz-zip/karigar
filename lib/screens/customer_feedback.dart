@@ -186,7 +186,7 @@ class _CustomerFeedbackState extends State<CustomerFeedback> {
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Poppins',
-                        fontSize: 14,
+                        fontSize: 18,
                         fontWeight: FontWeight.w300),
                   )),
                 ),
