@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:karigar/models/authentication_model.dart';
 import 'package:karigar/screens/home_screen.dart';
@@ -9,6 +11,51 @@ class SignInScreen extends StatefulWidget {
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
+}
+
+Future<Post> getPost(
+    String name, String email, String password, String address) async {
+  final response = await http.get(
+    Uri.parse('http://192.168.31.203:8000/users'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  if (response.statusCode == 201) {
+    print('Got it');
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Post.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
+  }
+}
+
+class Post {
+  final int id;
+  final String name;
+  final String email;
+  final String password;
+  final String address;
+
+  Post(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.password,
+      required this.address});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      address: json['address'],
+    );
+  }
 }
 
 class _SignInScreenState extends State<SignInScreen> {

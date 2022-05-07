@@ -6,9 +6,7 @@ import 'package:karigar/models/electrician/fridge_model.dart';
 import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
-import 'package:karigar/screens/customer_feedback.dart';
-import 'package:karigar/screens/home_screen.dart';
-import 'package:karigar/screens/job_update.dart';
+import 'package:karigar/screens/payment.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Cart extends StatefulWidget {
@@ -355,13 +353,10 @@ class _CartState extends State<Cart> {
                       padding: const EdgeInsets.all(35.0),
                       child: GestureDetector(
                         onTap: () => {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => HomeScreen(),
-                            ),
-                            (route) => false,
-                          )
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Payment())),
                         },
                         child: Container(
                           width: 250,
