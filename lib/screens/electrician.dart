@@ -206,7 +206,7 @@ class _ElectricianState extends State<Electrician> {
               Image.asset(Assets.arrow),
             ]),
       ),
-      drawer: KarigarDrawer,
+      drawer: KarigarDrawer(),
     );
   }
 }

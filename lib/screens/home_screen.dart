@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      drawer: KarigarDrawer,
+      drawer: KarigarDrawer(),
       floatingActionButton: FloatingActionButton(
         elevation: 25,
         heroTag: Text('Chat Bot'),

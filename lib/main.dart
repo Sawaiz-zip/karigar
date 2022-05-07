@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karigar/controllers/cart_controller.dart';
+import 'package:karigar/routes.dart';
+import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/on_boarding.dart';
 
 void main() {
@@ -13,9 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        home: MyHomePage(),
+        routes: {
+          Routes.homeScreen: (context) => HomeScreen(),
+        });
   }
 }
 

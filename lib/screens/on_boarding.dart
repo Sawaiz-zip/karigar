@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:karigar/screens/home_screen.dart';
+import 'package:karigar/screens/signup_screen.dart';
 
 import '../models/on_boarding_model.dart';
-import 'authentication.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -87,7 +88,7 @@ class _OnboardingState extends State<Onboarding> {
                   int index = currentIndex + 1;
                   if (index == contents.length) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Authentication()));
+                        builder: (context) => SignUpScreen()));
                   } else
                     controller.jumpToPage(index);
                 });
@@ -108,8 +109,8 @@ class _OnboardingState extends State<Onboarding> {
           child: TextButton(
               onPressed: () {
                 setState(() {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Authentication()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                 });
               },
               child: Text(
