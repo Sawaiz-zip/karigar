@@ -1,21 +1,75 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:karigar/models/authentication/customers_authentication_model.dart';
 import 'package:karigar/models/authentication_model.dart';
 import 'package:karigar/screens/home_screen.dart';
-import 'package:karigar/screens/otp.dart';
+import 'package:karigar/screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Authentication extends StatefulWidget {
-  const Authentication({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthenticationState createState() => _AuthenticationState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _AuthenticationState extends State<Authentication> {
+Future<Post> createPost(
+    String name, String email, String password, String address) async {
+  final response = await http.post(
+    Uri.parse('http://localhost:3000/users'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'name': name,
+      'email': email,
+      'password': password,
+      'address': address,
+    }),
+  );
+  if (response.statusCode == 201) {
+    print('Done');
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Post.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create album.');
+  }
+}
+
+class Post {
+  final int id;
+  final String name;
+  final String email;
+  final String password;
+  final String address;
+
+  Post(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.password,
+      required this.address});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      password: json['password'],
+      address: json['address'],
+    );
+  }
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _reEnterPassword = TextEditingController();
+  final TextEditingController _address = TextEditingController();
   bool _rememberMe = false;
 
   // ignore: non_constant_identifier_names
@@ -24,11 +78,14 @@ class _AuthenticationState extends State<Authentication> {
   final _email_validate = GlobalKey<FormState>();
   // ignore: non_constant_identifier_names
   final _password_validate = GlobalKey<FormState>();
+  final _reEnterPassword_validate = GlobalKey<FormState>();
+  final _address_validate = GlobalKey<FormState>();
 
-  //final _focusNode = FocusNode();
   int index = 0;
   int signUp = 1;
   int loginEmailIndex = -1;
+
+  Future<Post>? _futurePost;
 
   @override
   void initState() {
@@ -58,6 +115,7 @@ class _AuthenticationState extends State<Authentication> {
                         _email.clear();
                         _password.clear();
                         _name.clear();
+                        _reEnterPassword.clear();
                         _rememberMe = false;
                       });
                     },
@@ -80,6 +138,7 @@ class _AuthenticationState extends State<Authentication> {
                         index = 1;
                         _email.clear();
                         _password.clear();
+                        _reEnterPassword.clear();
                         _name.clear();
                         _rememberMe = false;
                       });
@@ -112,7 +171,7 @@ class _AuthenticationState extends State<Authentication> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    authenticationContent[signUp].title,
+                    authenticationContent[1].title,
                     style: const TextStyle(
                       fontFamily: 'GideonRoman',
                       color: Colors.black,
@@ -120,7 +179,7 @@ class _AuthenticationState extends State<Authentication> {
                     ),
                   ),
                   Text(
-                    authenticationContent[signUp].subtitle,
+                    authenticationContent[1].subtitle,
                     style: const TextStyle(
                       fontFamily: 'MoonTime',
                       color: Colors.black,
@@ -130,73 +189,52 @@ class _AuthenticationState extends State<Authentication> {
                 ],
               ),
             ),
-            signUp == 1
-                ? Padding(
-                    padding: EdgeInsets.fromLTRB(_size.width * 0.1,
-                        _size.height * 0.04, _size.width * 0.1, 0),
-                    child: Form(
-                      key: _name_validate,
-                      child: TextFormField(
-                        //autofocus: true,
-                        //focusNode: _focusNode,
-                        textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
-                          hintText: 'Name',
-                          hintStyle: TextStyle(fontFamily: 'Poppins'),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
-                        ),
-                        cursorColor: Colors.black,
-                        controller: _name,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Required Field';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  )
-                : Container(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
+              child: Form(
+                key: _name_validate,
+                child: TextFormField(
+                  //autofocus: true,
+                  //focusNode: _focusNode,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                    hintText: 'Name',
+                    hintStyle: TextStyle(fontFamily: 'Poppins'),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                  ),
+                  cursorColor: Colors.black,
+                  controller: _name,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Required Field';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(
                   _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
               child: Form(
                 key: _email_validate,
                 child: TextFormField(
-                  //autofocus: signUp == 0?,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
-                      hintText: authenticationContent[signUp].signUpEmail,
+                      hintText: authenticationContent[1].signUpEmail,
                       hintStyle: const TextStyle(fontFamily: 'Poppins'),
                       focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.black))),
                   cursorColor: Colors.black,
                   controller: _email,
                   validator: (value) {
-                    if (signUp == 0 && index == 0) // Customer Login
-                    {
-                      for (int i = 0;
-                          i < customersAuthenticationContent.length;
-                          i++) {
-                        if (value == customersAuthenticationContent[i].email) {
-                          setState(() {
-                            loginEmailIndex = i;
-                          });
-                          return null;
-                        }
-                        if (i == customersAuthenticationContent.length - 1) {
-                          return 'Invalid Email';
-                        }
-                      }
-                    }
                     if (value!.isEmpty) {
-                      return 'Required Field';
+                      return 'Enter Email!';
                     }
-                    if (signUp == 1) {
-                      if (!value.contains("@") || !value.contains(".com")) {
-                        return "Invalid Email!";
-                      }
+                    if (!value.contains('.com') || !value.contains('@')) {
+                      return 'Invalid Email!';
                     }
                     return null;
                   },
@@ -219,46 +257,63 @@ class _AuthenticationState extends State<Authentication> {
                   cursorColor: Colors.black,
                   controller: _password,
                   validator: (value) {
-                    if (signUp == 0 && index == 0) // Customer
-                    {
-                      if (value ==
-                          customersAuthenticationContent[loginEmailIndex]
-                              .password)
-                        return null;
-                      else
-                        return 'Invalid';
+                    if (value!.length < 5) {
+                      return 'Password must be atleast 5 characters long!';
                     }
                     return null;
                   },
                 ),
               ),
             ),
-            signUp == 0
-                ? Padding(
-                    padding: EdgeInsets.fromLTRB(_size.width * 0.06,
-                        _size.height * 0.01, _size.width * 0.1, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Transform.scale(
-                          scale: 1.3,
-                          child: Checkbox(
-                            side: const BorderSide(color: Colors.black),
-                            shape: const CircleBorder(),
-                            checkColor: Colors.white,
-                            activeColor: Colors.black,
-                            value: _rememberMe,
-                            onChanged: _handleRememberMe,
-                          ),
-                        ),
-                        const Text('Remember Me',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            )),
-                      ],
-                    ),
-                  )
-                : Container(),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
+              child: Form(
+                key: _reEnterPassword_validate,
+                child: TextFormField(
+                  textInputAction: TextInputAction.go,
+                  decoration: const InputDecoration(
+                    hintText: 'Re-Enter Password',
+                    hintStyle: TextStyle(fontFamily: 'Poppins'),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                  ),
+                  cursorColor: Colors.black,
+                  controller: _reEnterPassword,
+                  validator: (value) {
+                    if (value != _password.text) {
+                      return "Password's donot match";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  _size.width * 0.1, _size.height * 0.04, _size.width * 0.1, 0),
+              child: Form(
+                key: _address_validate,
+                child: TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.go,
+                  decoration: const InputDecoration(
+                    hintText: 'Address',
+                    hintStyle: TextStyle(fontFamily: 'Poppins'),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black)),
+                  ),
+                  cursorColor: Colors.black,
+                  controller: _address,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Address can't be empty";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(
                   _size.width * 0.1, _size.height * 0.05, _size.width * 0.1, 0),
@@ -273,35 +328,30 @@ class _AuthenticationState extends State<Authentication> {
                       elevation: 7,
                       child: InkWell(
                         onTap: () async {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => OTP()));
-                          if (signUp == 1) {
-                            if (_name_validate.currentState!.validate() &&
-                                _email_validate.currentState!.validate() &&
-                                _password_validate.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const OTP()));
-                            }
-                          } else if (signUp == 0) {
-                            if (_email_validate.currentState!.validate() &&
-                                _password_validate.currentState!.validate()) {
+                          if (_name_validate.currentState!.validate() &&
+                              _email_validate.currentState!.validate() &&
+                              _password_validate.currentState!.validate() &&
+                              _reEnterPassword_validate.currentState!
+                                  .validate() &&
+                              _address_validate.currentState!.validate()) {
+                            setState(() {
+                              _futurePost = createPost(_name.text, _email.text,
+                                  _password.text, _address.text);
+
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => HomeScreen()));
-                            }
+                            });
                           }
                         },
                         child: Center(
-                            child:
-                                Text(authenticationContent[signUp].loginSignup,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 20,
-                                    ))),
+                            child: Text(authenticationContent[1].loginSignup,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 20,
+                                ))),
                       )),
                 ),
               ),
@@ -319,30 +369,29 @@ class _AuthenticationState extends State<Authentication> {
                       color: Colors.white,
                       elevation: 7,
                       child: InkWell(
-                        onTap: () async {},
+                        onTap: () async {
+                          print('google');
+                        },
                         child: Center(
-                            child: Text(
-                                authenticationContent[signUp].loginSignupGoogle,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15,
-                                ))),
+                            child:
+                                Text(authenticationContent[1].loginSignupGoogle,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15,
+                                    ))),
                       )),
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
-                  _size.width * 0.1,
-                  signUp == 1 ? _size.height * 0.15 : _size.height * 0.2,
-                  _size.width * 0.1,
-                  0),
+                  _size.width * 0.1, _size.height * 0.1, _size.width * 0.1, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    authenticationContent[signUp].dontHaveAnAccount,
+                    authenticationContent[1].dontHaveAnAccount,
                     style: const TextStyle(fontFamily: 'Poppins'),
                   ),
                   const SizedBox(
@@ -350,23 +399,15 @@ class _AuthenticationState extends State<Authentication> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (signUp == 0) {
-                        setState(() {
-                          signUp = 1;
-                          _email.clear();
-                          _password.clear();
-                          _name.clear();
-                        });
-                      } else {
-                        setState(() {
-                          signUp = 0;
-                          _email.clear();
-                          _password.clear();
-                        });
-                      }
+                      setState(() {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignInScreen()));
+                      });
                     },
                     child: Text(
-                      authenticationContent[signUp].buttonLoginSignup,
+                      authenticationContent[1].buttonLoginSignup,
                       style: const TextStyle(
                           fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                     ),
