@@ -1,11 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/models/electrician/fridge_model.dart';
 import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
+import 'package:karigar/screens/location.dart';
 import 'package:karigar/screens/payment.dart';
 import 'package:karigar/utils/assets.dart';
 
@@ -356,7 +358,7 @@ class _CartState extends State<Cart> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Payment())),
+                                  builder: (context) => Location())),
                         },
                         child: Container(
                           width: 250,

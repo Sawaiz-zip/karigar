@@ -9,6 +9,7 @@ import 'package:karigar/screens/on_boarding.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
+
   runApp(const MyApp());
 }
 
