@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:karigar/card_number_formatter.dart';
 import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/expiry_date_formatter.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
 import 'package:karigar/screens/home_screen.dart';
+import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/utils/assets.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 import '../models/electrician/fridge_model.dart';
 import '../models/electrician/machine_model.dart';
 import '../models/electrician/motor_model.dart';
@@ -36,6 +37,7 @@ class _PaymentState extends State<Payment> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    tz.initializeTimeZones();
     StripePayment.setOptions(StripeOptions(
         publishableKey:
             "pk_test_51KwvIwSHEbXizT2eH9KIh9zn1L8w91aD0sinfjBsVz5W6uWjJwGJ21gnwQOt53Hw6NJ0aOZPgtXLtHB8AxDgijWR007MqK1rLr",
@@ -192,6 +194,18 @@ class _PaymentState extends State<Payment> {
                   ),
                   onTap: () {
                     if (_form_key.currentState!.validate()) {
+                      for (int cartCounter = 0;
+                          cartCounter < cartContent.length;
+                          cartCounter++)
+                        for (int index = 0;
+                            index < cartContent[cartCounter].length;
+                            index++)
+                          cartContent[cartCounter][index].counter = 0;
+                      NotificationService().showNotification(
+                          1,
+                          'Karigar',
+                          'Amount of ${(subTotal + 200) * 0.0051} Euros has been successfully done!',
+                          20);
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -202,12 +216,10 @@ class _PaymentState extends State<Payment> {
                       cartController.totalCount = 0.obs;
                       StripePayment.createSourceWithParams(SourceParams(
                         type: 'ideal',
-                        amount: subTotal + 200,
-                        currency: 'INR',
+                        amount: ((subTotal + 200) * 0.51).toInt(),
+                        currency: 'eur',
                         returnURL: 'example://stripe-redirect',
                       )).then((source) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Payment Sent')));
                         setState(() {
                           _source = source;
                         });
