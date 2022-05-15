@@ -20,7 +20,7 @@ class AuthenticationContent {
 List<AuthenticationContent> authenticationContent = [
   AuthenticationContent(
       title: "Welcome,",
-      subtitle: "login into your account",
+      subtitle: "login to your account",
       loginSignup: "Login",
       signUpEmail: "Username/Email",
       loginSignupGoogle: "Login with Google",

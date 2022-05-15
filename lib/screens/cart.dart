@@ -390,7 +390,7 @@ class _CartState extends State<Cart> {
     final Map<String, Map> updates = {};
     for (int i = 0; i < timeCount; i++) {
       updates['${key}/$i'] = postData[i];
-      FirebaseDatabase.instance.ref("Requests").set(updates);
+      FirebaseDatabase.instance.ref("Requests").update(updates);
     }
   }
 }
