@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "218445379578",
+    "project_id": "karigar-349601",
+    "storage_bucket": "karigar-349601.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218445379578:android:3b316cb6e5db2c06f29643",
+        "android_client_info": {
+          "package_name": "com.example.karigar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218445379578-b6epi9mi6f3oqoumpoqlvov5nol16ah8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.karigar",
+            "certificate_hash": "3531351318a5de0204270563e712a60df935e17f"
+          }
+        },
+        {
+          "client_id": "218445379578-t1hd77253jiggue8gdtsso5nk29ga0qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe6TMwQvmuZB9Ch0uECsoMrU4giE_2E5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218445379578-t1hd77253jiggue8gdtsso5nk29ga0qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

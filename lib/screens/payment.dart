@@ -33,6 +33,7 @@ class _PaymentState extends State<Payment> {
   int subTotal = 0;
   List cartContent = [fridgeContent, motorContent, machineContent, tvContent];
   late final CreditCard testCard;
+  // late tz.TZDateTime dateTime;
   @override
   void initState() {
     // TODO: implement initState
@@ -192,7 +193,7 @@ class _PaymentState extends State<Payment> {
                       ),
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     if (_form_key.currentState!.validate()) {
                       for (int cartCounter = 0;
                           cartCounter < cartContent.length;
@@ -201,11 +202,16 @@ class _PaymentState extends State<Payment> {
                             index < cartContent[cartCounter].length;
                             index++)
                           cartContent[cartCounter][index].counter = 0;
-                      NotificationService().showNotification(
-                          1,
-                          'Karigar',
-                          'Amount of ${(subTotal + 200) * 0.0051} Euros has been successfully done!',
-                          20);
+                      // dateTime = await NotificationService()
+                      //     .timeCheck(10)
+                      //     .whenComplete(
+                      //       () => NotificationService().showNotification(
+                      //           1,
+                      //           'Karigar',
+                      //           'Work has been posted. Stay tuned!',
+                      //           10,
+                      //           dateTime),
+                      //     );
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

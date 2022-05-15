@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/models/drawer_model.dart';
+import 'package:karigar/screens/profile.dart';
 import 'package:karigar/utils/assets.dart';
 
 class KarigarDrawer extends StatefulWidget {
@@ -70,6 +71,14 @@ class _KarigarDrawerState extends State<KarigarDrawer> {
                       fontSize: 13,
                       color: Colors.white),
                 ),
+                onTap: () {
+                  if (drawerContent[index].title == 'Profile') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileScreen()));
+                  }
+                },
               ),
             Padding(
               padding: const EdgeInsets.only(top: 200),
