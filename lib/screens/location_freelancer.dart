@@ -8,6 +8,7 @@ import 'dart:math' show cos, sqrt, asin;
 
 import 'package:karigar/screens/secrets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:permission/permission.dart';
 
 class Location extends StatefulWidget {

@@ -1,9 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:karigar/controllers/location_controller.dart';
-import 'package:karigar/utils/assets.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
 
 final locationController = Get.find<LocationController>();
 

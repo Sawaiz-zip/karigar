@@ -6,10 +6,8 @@ import 'package:karigar/controllers/cart_controller.dart';
 import 'package:karigar/expiry_date_formatter.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
 import 'package:karigar/screens/home_screen.dart';
-import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/utils/assets.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import '../models/electrician/fridge_model.dart';
 import '../models/electrician/machine_model.dart';
@@ -26,7 +24,6 @@ class _PaymentState extends State<Payment> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Source _source = Source();
   final _form_key = GlobalKey<FormState>();
-  PaymentMethod _paymentMethod = PaymentMethod();
   TextEditingController _cardNumber = TextEditingController();
   TextEditingController _expiryDate = TextEditingController();
   TextEditingController _cvc = TextEditingController();
@@ -36,7 +33,6 @@ class _PaymentState extends State<Payment> {
   // late tz.TZDateTime dateTime;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     tz.initializeTimeZones();
     StripePayment.setOptions(StripeOptions(
@@ -229,6 +225,7 @@ class _PaymentState extends State<Payment> {
                         setState(() {
                           _source = source;
                         });
+                        // ignore: invalid_return_type_for_catch_error, argument_type_not_assignable_to_error_handler
                       }).catchError(() => print("Error"));
                     }
                   },

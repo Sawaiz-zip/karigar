@@ -1,9 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:karigar/controllers/cart_controller.dart';
-import 'package:karigar/screens/cart.dart';
 import 'package:karigar/screens/chat_bot.dart';
 import 'package:karigar/screens/electrician.dart';
 import 'package:karigar/screens/job_update.dart';
@@ -20,11 +16,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.find<CartController>();
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: Builder(builder: (AppBarContext) {
           return IconButton(
             icon: Image.asset(Assets.drawerBlack),
