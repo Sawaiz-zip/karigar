@@ -199,6 +199,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Form(
                       key: _password_validate,
                       child: TextFormField(
+                        obscureText: true,
                         textInputAction: TextInputAction.go,
                         decoration: const InputDecoration(
                           hintText: 'Password',
@@ -223,6 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Form(
                       key: _reEnterPassword_validate,
                       child: TextFormField(
+                        obscureText: true,
                         textInputAction: TextInputAction.go,
                         decoration: const InputDecoration(
                           hintText: 'Re-Enter Password',

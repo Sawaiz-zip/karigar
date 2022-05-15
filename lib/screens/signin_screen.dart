@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:karigar/controllers/profile_controller.dart';
 import 'package:karigar/models/authentication_model.dart';
+import 'package:karigar/screens/freelancer.dart';
 import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,10 +22,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _password = TextEditingController();
   final auth = FirebaseAuth.instance;
 
+  // ignore: unused_field
   bool _rememberMe = false;
 
-  // ignore: non_constant_identifier_names
-  final _name_validate = GlobalKey<FormState>();
   // ignore: non_constant_identifier_names
   final _email_validate = GlobalKey<FormState>();
   // ignore: non_constant_identifier_names
@@ -36,9 +34,18 @@ class _SignInScreenState extends State<SignInScreen> {
   int index = 0;
   int signUp = 1;
   int loginEmailIndex = -1;
+  var data;
+  void readData() {
+    DatabaseReference users = FirebaseDatabase.instance.ref('Users');
+    users.onValue.listen((DatabaseEvent event) {
+      data = event.snapshot.value;
+    });
+  }
 
   @override
   void initState() {
+    loader = false;
+    readData();
     _loadUserEmailPassword();
     super.initState();
   }
@@ -173,6 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Form(
                       key: _password_validate,
                       child: TextFormField(
+                        obscureText: true,
                         textInputAction: TextInputAction.go,
                         decoration: const InputDecoration(
                           hintText: 'Password',
@@ -184,7 +192,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         controller: _password,
                         validator: (value) {
                           if (value!.length < 5) {
-                            return 'Password must be atleast 5 characters long!';
+                            return 'Wrong Password!';
                           }
                           return null;
                         },
@@ -208,6 +216,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 if (_email_validate.currentState!.validate() &&
                                     _password_validate.currentState!
                                         .validate()) {
+                                  var key;
                                   setState(() {
                                     loader = true;
                                   });
@@ -218,12 +227,57 @@ class _SignInScreenState extends State<SignInScreen> {
                                       .then((value) => {
                                             profileController.email =
                                                 _email.text,
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeScreen()))
+                                            key = _email.text.split('.'),
+                                            profileController.address =
+                                                data[key[0]]["address"],
+                                            profileController.name =
+                                                data[key[0]]["name"],
+                                            profileController.use =
+                                                data[key[0]]["use"],
+                                            if (data[key[0]]["use"] == "Hire")
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HomeScreen()))
+                                            else
+                                              {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Freelancer()))
+                                              }
+                                          })
+                                      .catchError((error) {
+                                    setState(() {
+                                      loader = false;
+                                    });
+                                    print("ERROR");
+                                    print(error);
+                                    // Handle Errors here.
+                                    var errorCode = error.code;
+                                    if (errorCode == 'wrong-password') {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Error"),
+                                              content: Text(error.message),
+                                              actions: [
+                                                FlatButton(
+                                                  child: Text("Ok"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                )
+                                              ],
+                                            );
                                           });
+
+                                      //console.log(error);
+                                    }
+                                  });
                                 }
                               },
                               child: Center(

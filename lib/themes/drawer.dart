@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/profile_controller.dart';
 import 'package:karigar/models/drawer_model.dart';
 import 'package:karigar/screens/profile.dart';
+import 'package:karigar/screens/signin_screen.dart';
 import 'package:karigar/utils/assets.dart';
 
 class KarigarDrawer extends StatefulWidget {
@@ -11,6 +14,7 @@ class KarigarDrawer extends StatefulWidget {
 }
 
 class _KarigarDrawerState extends State<KarigarDrawer> {
+  final profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -40,21 +44,27 @@ class _KarigarDrawerState extends State<KarigarDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Abdul Wasey',
+                        profileController.name,
                         style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white),
                       ),
-                      Text(
-                        'View Profile',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 9,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.white),
-                      ),
+                      InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileScreen())),
+                        child: Text(
+                          'View Profile',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 9,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.white),
+                        ),
+                      )
                     ],
                   ),
                 ]),
@@ -85,7 +95,13 @@ class _KarigarDrawerState extends State<KarigarDrawer> {
               child: ListTile(
                 onTap: () => {
                   setState(() {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => SignInScreen(),
+                      ),
+                      (route) => false,
+                    );
                   }),
                 },
                 leading:

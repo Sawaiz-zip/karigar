@@ -110,7 +110,7 @@ class _OnboardingState extends State<Onboarding> {
               onPressed: () {
                 setState(() {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                      MaterialPageRoute(builder: (context) => SignUpScreen()));
                 });
               },
               child: Text(
