@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karigar/controllers/cart_controller.dart';
@@ -6,9 +7,10 @@ import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/screens/on_boarding.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }

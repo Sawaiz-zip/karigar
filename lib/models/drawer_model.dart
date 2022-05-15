@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:karigar/screens/profile.dart';
 import 'package:karigar/utils/assets.dart';
 
 class DrawerContent {
@@ -10,7 +12,7 @@ class DrawerContent {
 }
 
 List<DrawerContent> drawerContent = [
-  DrawerContent(title: 'Profile', image: Assets.profileWhite, onTap: () {}),
+  DrawerContent(title: 'Profile', image: Assets.profileWhite, onTap: () => {}),
   DrawerContent(
       title: 'Previous Orders',
       image: Assets.previousOrdersWhite,

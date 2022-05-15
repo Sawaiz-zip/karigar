@@ -1,14 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+//import 'package:http/http.dart' ;
 import 'package:karigar/controllers/cart_controller.dart';
+import 'package:karigar/controllers/profile_controller.dart';
 import 'package:karigar/models/electrician/fridge_model.dart';
 import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
 import 'package:karigar/screens/location.dart';
-import 'package:karigar/screens/payment.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Cart extends StatefulWidget {
@@ -25,9 +27,11 @@ class _CartState extends State<Cart> {
   int subTotal = 0;
   int visitingFee = 200;
   final cartController = Get.find<CartController>();
+  final profileController = Get.find<ProfileController>();
   //bool _promoCodeValid = false;
   final _promoCodeValidator = GlobalKey<FormState>();
   TextEditingController _promoCode = TextEditingController();
+  FirebaseDatabase database = FirebaseDatabase.instance;
   @override
   void initState() {
     super.initState();
@@ -43,7 +47,6 @@ class _CartState extends State<Cart> {
             int.parse(cartContent[i][j].counter.toString());
       }
     }
-    if (subTotal == 0) visitingFee = 0;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -225,19 +228,6 @@ class _CartState extends State<Cart> {
                                     child: TextFormField(
                                       controller: _promoCode,
                                       validator: (value) {
-                                        // for (int i = 0;
-                                        //     i < promoCodeContent.length;
-                                        //     i++) {
-                                        //   if (_promoCode.value ==
-                                        //       promoCodeContent[i]) {
-                                        //     setState(
-                                        //         () => _promoCodeValid = true);
-                                        //     return null;
-                                        //   } else
-                                        //     setState(
-                                        //         () => _promoCodeValid = false);
-                                        // }
-
                                         return null;
                                       },
                                       cursorColor: Colors.grey,
@@ -252,35 +242,11 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {
-                                    // if (_promoCodeValidator.currentState!
-                                    //     .validate()) {
-                                    //   setState(() => _promoCodeValid = true);
-
-                                    //   print(_promoCodeValid);
-                                    // } else {
-                                    //   setState(() => _promoCodeValid = false);
-                                    //   print(_promoCodeValid);
-                                    // }
-                                  },
+                                  onPressed: () {},
                                   icon: Image.asset(Assets.promoCodeBlack))
                             ]),
                       ),
                     ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //       color: _promoCodeValid
-                    //           ? Colors.greenAccent.shade100
-                    //           : Colors.redAccent.shade100),
-                    //   child: AnimatedCrossFade(
-                    //     firstChild: Text('InValid'),
-                    //     secondChild: Text('Valid'),
-                    //     crossFadeState: _promoCodeValid
-                    //         ? CrossFadeState.showSecond
-                    //         : CrossFadeState.showFirst,
-                    //     duration: Duration(seconds: 0),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Column(
@@ -355,6 +321,7 @@ class _CartState extends State<Cart> {
                       padding: const EdgeInsets.all(35.0),
                       child: GestureDetector(
                         onTap: () => {
+                          sendData(),
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -394,5 +361,36 @@ class _CartState extends State<Cart> {
                   ),
                 ),
               )));
+  }
+
+  void sendData() async {
+    List title = [];
+    List amount = [];
+    List counter = [];
+    int timeCount = 0;
+    for (int cartCounter = 0; cartCounter < cartContent.length; cartCounter++)
+      for (int index = 0; index < cartContent[cartCounter].length; index++)
+        if (cartContent[cartCounter][index].counter != 0) {
+          title.add(cartContent[cartCounter][index].title);
+          amount.add(cartContent[cartCounter][index].amount);
+          counter.add(cartContent[cartCounter][index].counter);
+          timeCount++;
+        }
+    late List<Map<String, String>> postData = [];
+    var _email = profileController.email.split('.');
+    final key = _email[0];
+    for (int i = 0; i < timeCount; i++) {
+      postData.add({
+        "title": title[i],
+        "amount": amount[i].toString(),
+        "counter": counter[i].toString()
+      });
+    }
+    print(postData);
+    final Map<String, Map> updates = {};
+    for (int i = 0; i < timeCount; i++) {
+      updates['${key}/$i'] = postData[i];
+      FirebaseDatabase.instance.ref("Requests").set(updates);
+    }
   }
 }
