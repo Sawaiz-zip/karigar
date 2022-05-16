@@ -34,6 +34,7 @@ class Location extends StatefulWidget {
 
 class _LocationState extends State<Location> {
   final locationController = Get.put(LocationController());
+  final cartController = Get.find<CartController>();
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   bool a0 = false,
@@ -612,6 +613,22 @@ class _LocationState extends State<Location> {
     final Map<String, Map> updates = {};
 
     updates['${key}/address'] = postData;
+    FirebaseDatabase.instance.ref("Requests").update(updates);
+
+    // Send total amount
+    final Map<String, String> postTotalAmount = {
+      "totalAmount": cartController.totalAmount.toString()
+    };
+
+    updates['${key}/totalAmount'] = postTotalAmount;
+    FirebaseDatabase.instance.ref("Requests").update(updates);
+
+    // Send Number of Work
+    final Map<String, String> postWorkCount = {
+      "workCount": cartController.cartCounter.toString()
+    };
+
+    updates['${key}/workCount'] = postWorkCount;
     FirebaseDatabase.instance.ref("Requests").update(updates);
   }
 }

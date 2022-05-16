@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:karigar/card_number_formatter.dart';
 import 'package:karigar/controllers/cart_controller.dart';
+import 'package:karigar/controllers/requests_controller.dart';
 import 'package:karigar/expiry_date_formatter.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
+import 'package:karigar/screens/customer_feedback.dart';
 import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/utils/assets.dart';
 import 'package:stripe_payment/stripe_payment.dart';
@@ -25,6 +27,7 @@ class _PaymentState extends State<Payment> {
   Source _source = Source();
   final _form_key = GlobalKey<FormState>();
   TextEditingController _cardNumber = TextEditingController();
+  final requestsController = Get.find<RequestsController>();
   TextEditingController _expiryDate = TextEditingController();
   TextEditingController _cvc = TextEditingController();
   int subTotal = 0;
@@ -211,14 +214,16 @@ class _PaymentState extends State<Payment> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) => HomeScreen(),
+                          builder: (BuildContext context) => CustomerFeedback(),
                         ),
                         (route) => false,
                       );
                       cartController.totalCount = 0.obs;
                       StripePayment.createSourceWithParams(SourceParams(
                         type: 'ideal',
-                        amount: ((subTotal + 200) * 0.51).toInt(),
+                        amount:
+                            ((int.parse(requestsController.totalAmount)) * 0.51)
+                                .toInt(),
                         currency: 'eur',
                         returnURL: 'example://stripe-redirect',
                       )).then((source) {

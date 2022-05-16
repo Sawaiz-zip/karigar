@@ -1,5 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/profile_controller.dart';
+import 'package:karigar/controllers/requests_controller.dart';
 import 'package:karigar/models/feedback_improvement_model.dart';
 import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/utils/assets.dart';
@@ -12,6 +16,8 @@ class CustomerFeedback extends StatefulWidget {
 }
 
 class _CustomerFeedbackState extends State<CustomerFeedback> {
+  final requestsController = Get.find<RequestsController>();
+  final profileController = Get.find<ProfileController>();
   List<bool> reviewStar = [false, false, false, false, false];
   List<bool> improvement = [false, false, false, false, false];
   @override
@@ -170,13 +176,16 @@ class _CustomerFeedbackState extends State<CustomerFeedback> {
             Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: GestureDetector(
-                onTap: () => Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => HomeScreen(),
+                onTap: () => {
+                  deleteData(),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => HomeScreen(),
+                    ),
+                    (route) => false,
                   ),
-                  (route) => false,
-                ),
+                },
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(color: Colors.redAccent),
@@ -196,5 +205,12 @@ class _CustomerFeedbackState extends State<CustomerFeedback> {
         ),
       ),
     );
+  }
+
+  void deleteData() async {
+    var email = profileController.email.toString().split('.');
+    final key = email[0];
+    FirebaseDatabase.instance.ref("Requests").child(key).remove();
+    FirebaseDatabase.instance.ref("Accepted").child(key).remove();
   }
 }
