@@ -22,6 +22,7 @@ class _FreelancerState extends State<Freelancer> {
   Map users = {};
   List userKeys = [];
   bool show = false;
+  bool noRequests = false;
   var snapshot;
   List keys = [];
   Future readData() async {
@@ -32,6 +33,12 @@ class _FreelancerState extends State<Freelancer> {
       setState(() {
         show = true;
       });
+    });
+  }
+
+  void noRequest() {
+    setState(() {
+      noRequests = true;
     });
   }
 
@@ -66,35 +73,64 @@ class _FreelancerState extends State<Freelancer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: Builder(builder: (AppBarContext) {
-          return IconButton(
-            icon: Image.asset(Assets.drawerBlack),
-            onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
+    Future.delayed(
+        Duration(seconds: 3), () => {if (show == false) noRequest()});
+    return noRequests
+        ? Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: Builder(builder: (AppBarContext) {
+                return IconButton(
+                  icon: Image.asset(Assets.drawerBlack),
+                  onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
+                );
+              }),
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            drawer: KarigarDrawer(),
+            body: Center(
+                child: Text(
+              'No Work Yet',
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins'),
+            )),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: Builder(builder: (AppBarContext) {
+                return IconButton(
+                  icon: Image.asset(Assets.drawerBlack),
+                  onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
+                );
+              }),
+              backgroundColor: Colors.white,
+              elevation: 0,
+            ),
+            body: show
+                ? ListView.builder(
+                    itemCount: keys.length,
+                    itemBuilder: (context, index) {
+                      createCards();
+                      for (int i = 0; i < keys.length; i++)
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            cards[index],
+                          ],
+                        );
+                      return SizedBox();
+                    })
+                : Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                    drawer: KarigarDrawer(),
+                  ),
+            drawer: KarigarDrawer(),
           );
-        }),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: show
-          ? ListView.builder(
-              itemCount: keys.length,
-              itemBuilder: (context, index) {
-                createCards();
-                for (int i = 0; i < keys.length; i++)
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      cards[index],
-                    ],
-                  );
-                return SizedBox();
-              })
-          : CircularProgressIndicator(),
-      drawer: KarigarDrawer(),
-    );
   }
 
   void createCards() {
