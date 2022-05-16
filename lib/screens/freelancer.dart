@@ -2,9 +2,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:karigar/controllers/profile_controller.dart';
 import 'package:karigar/controllers/requests_controller.dart';
 import 'package:karigar/screens/job_description.dart';
 import 'package:karigar/screens/job_update.dart';
+import 'package:karigar/screens/waiting_area.dart';
 import 'package:karigar/themes/drawer.dart';
 import 'package:karigar/utils/assets.dart';
 
@@ -16,7 +18,8 @@ class Freelancer extends StatefulWidget {
 }
 
 class _FreelancerState extends State<Freelancer> {
-  final requestsController = Get.put(RequestsController());
+  final requestsController = Get.find<RequestsController>();
+  final profileController = Get.find<ProfileController>();
   Map requests = {};
   List<Widget> cards = [];
   Map users = {};
@@ -76,60 +79,69 @@ class _FreelancerState extends State<Freelancer> {
     Future.delayed(
         Duration(seconds: 3), () => {if (show == false) noRequest()});
     return noRequests
-        ? Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              leading: Builder(builder: (AppBarContext) {
-                return IconButton(
-                  icon: Image.asset(Assets.drawerBlack),
-                  onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
-                );
-              }),
+        ? WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
               backgroundColor: Colors.white,
-              elevation: 0,
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                leading: Builder(builder: (AppBarContext) {
+                  return IconButton(
+                    icon: Image.asset(Assets.drawerBlack),
+                    onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
+                  );
+                }),
+                backgroundColor: Colors.white,
+                elevation: 0,
+              ),
+              drawer: KarigarDrawer(),
+              body: Center(
+                  child: Text(
+                'No Work Yet',
+                style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins'),
+              )),
             ),
-            drawer: KarigarDrawer(),
-            body: Center(
-                child: Text(
-              'No Work Yet',
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins'),
-            )),
           )
-        : Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              leading: Builder(builder: (AppBarContext) {
-                return IconButton(
-                  icon: Image.asset(Assets.drawerBlack),
-                  onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
-                );
-              }),
-              backgroundColor: Colors.white,
-              elevation: 0,
+        : WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                leading: Builder(builder: (AppBarContext) {
+                  return IconButton(
+                    icon: Image.asset(Assets.drawerBlack),
+                    onPressed: () => Scaffold.of(AppBarContext).openDrawer(),
+                  );
+                }),
+                backgroundColor: Colors.white,
+                elevation: 0,
+              ),
+              body: show
+                  ? ListView.builder(
+                      itemCount: keys.length,
+                      itemBuilder: (context, index) {
+                        createCards();
+                        for (int i = 0; i < keys.length; i++)
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              cards[index],
+                            ],
+                          );
+                        return SizedBox();
+                      })
+                  : WillPopScope(
+                      onWillPop: () async => false,
+                      child: Scaffold(
+                        body: Center(child: CircularProgressIndicator()),
+                        drawer: KarigarDrawer(),
+                      ),
+                    ),
+              drawer: KarigarDrawer(),
             ),
-            body: show
-                ? ListView.builder(
-                    itemCount: keys.length,
-                    itemBuilder: (context, index) {
-                      createCards();
-                      for (int i = 0; i < keys.length; i++)
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            cards[index],
-                          ],
-                        );
-                      return SizedBox();
-                    })
-                : Scaffold(
-                    body: Center(child: CircularProgressIndicator()),
-                    drawer: KarigarDrawer(),
-                  ),
-            drawer: KarigarDrawer(),
           );
   }
 
@@ -241,7 +253,28 @@ class _FreelancerState extends State<Freelancer> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () => {
+                                      requestsController.totalAmount =
+                                          requests[keys[i]]['totalAmount']
+                                                  ['totalAmount']
+                                              .toString(),
+                                      requestsController.address =
+                                          requests[keys[i]]['address']
+                                                  ['address']
+                                              .toString(),
+                                      requestsController.name =
+                                          users[keys[i]]['name'].toString(),
+                                      requestsController.user = users[keys[i]],
+                                      requestsController.requests =
+                                          requests[keys[i]],
+                                      requestsController.email = keys[i],
+                                      acceptJob(),
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WaitingArea()))
+                                    },
                                     child: Container(
                                       height: 25,
                                       width: 90,
@@ -292,5 +325,19 @@ class _FreelancerState extends State<Freelancer> {
         );
       }
     }
+  }
+
+  void acceptJob() {
+    late Map<String, String> postData = {};
+    requestsController.freelancerEmail = profileController.email;
+    postData = {
+      "Consumer Email": requestsController.email,
+      "Freelancer Email": profileController.email
+    };
+    final key = requestsController.email;
+    final Map<String, Map> updates = {};
+
+    updates['${key}'] = postData;
+    FirebaseDatabase.instance.ref("Accepted").update(updates);
   }
 }

@@ -112,7 +112,7 @@ class _LocationState extends State<Location> {
   // Method for retrieving the current location
   _getCurrentLocation() async {
     print("Current location");
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) async {
       setState(() {
         print("Inside get Current location");
@@ -560,6 +560,7 @@ class _LocationState extends State<Location> {
                             child: Icon(Icons.my_location),
                           ),
                           onTap: () {
+                            _getCurrentLocation();
                             mapController.animateCamera(
                               CameraUpdate.newCameraPosition(
                                 CameraPosition(

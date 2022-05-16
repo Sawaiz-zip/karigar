@@ -5,6 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:karigar/controllers/cart_controller.dart';
+import 'package:karigar/controllers/location_controller.dart';
+import 'package:karigar/controllers/profile_controller.dart';
+import 'package:karigar/controllers/requests_controller.dart';
 import 'package:karigar/routes.dart';
 import 'package:karigar/screens/home_screen.dart';
 import 'package:karigar/screens/notification_service.dart';
@@ -61,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     Timer(const Duration(milliseconds: 1500), fadeIn);
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
@@ -78,6 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     final cartController = Get.put(CartController());
+    final requestsController = Get.put(RequestsController());
+    final locationController = Get.put(LocationController());
+    final profileController = Get.put(ProfileController());
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,

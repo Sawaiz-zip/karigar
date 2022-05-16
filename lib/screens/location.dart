@@ -33,7 +33,7 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
-  final locationController = Get.put(LocationController());
+  final locationController = Get.find<LocationController>();
   final cartController = Get.find<CartController>();
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
@@ -129,7 +129,7 @@ class _LocationState extends State<Location> {
   // Method for retrieving the current location
   _getCurrentLocation() async {
     print("Current location");
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) async {
       setState(() {
         print("Inside get Current location");
@@ -160,6 +160,7 @@ class _LocationState extends State<Location> {
       Placemark place = p[0];
 
       setState(() {
+        print("PLACE: " + place.toString());
         _currentAddress =
             "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         print("CURRENT ADDRESS: $_currentAddress");
@@ -520,7 +521,7 @@ class _LocationState extends State<Location> {
                                         1,
                                         'Karigar',
                                         'Work has been posted. Stay tuned!',
-                                        10),
+                                        5),
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -566,6 +567,7 @@ class _LocationState extends State<Location> {
                             child: Icon(Icons.my_location),
                           ),
                           onTap: () {
+                            _getCurrentLocation();
                             mapController.animateCamera(
                               CameraUpdate.newCameraPosition(
                                 CameraPosition(

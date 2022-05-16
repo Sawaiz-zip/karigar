@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:karigar/controllers/profile_controller.dart';
 import 'package:karigar/models/freelancer_profile_model.dart';
 import 'package:karigar/screens/chatbox.dart';
 import 'package:karigar/utils/assets.dart';
@@ -22,8 +24,12 @@ class _JobUpdateState extends State<JobUpdate> {
   List userKeys = [];
   bool noRequests = false;
   bool show = false;
+  final profileController = Get.find<ProfileController>();
   Future readData() async {
-    DatabaseReference request = FirebaseDatabase.instance.ref('Accepted');
+    var email = profileController.email.toString().split('.');
+    var key = email[0];
+    DatabaseReference request =
+        FirebaseDatabase.instance.ref('Accepted').child(key);
     request.onValue.listen((DatabaseEvent event) {
       requests = event.snapshot.value as Map;
       getKeysFromRequests(requests);
@@ -123,11 +129,10 @@ class _JobUpdateState extends State<JobUpdate> {
                           fontWeight: FontWeight.w400),
                     )),
                 body: ListView.builder(
-                    itemCount: requests.length,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
-                      emailKey = requests[keys[index]]["Freelancer Email"]
-                          .toString()
-                          .split('.');
+                      emailKey =
+                          requests["Freelancer Email"].toString().split('.');
                       freelancerInfo.add(users[emailKey[0]]);
 
                       return Padding(

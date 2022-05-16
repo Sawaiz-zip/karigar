@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:karigar/models/authentication_model.dart';
+import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -308,6 +309,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     builder: (context) =>
                                                         SignInScreen()))
                                           });
+                                  NotificationService().showNotification(
+                                      1,
+                                      'SignUp Successful',
+                                      "You have been signed up as a ${index == 0 ? "Customer" : "Freelancer"}",
+                                      5);
                                 }
                               },
                               child: Center(
@@ -391,13 +397,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void registerUser(
       String name, String email, String address, String use) async {
-    // User Entry
-    final postData = {
-      'name': name,
-      'email': email,
-      'address': address,
-      'use': use,
-    };
+    var postData;
+    if (use == 'Sell') {
+      postData = {
+        'name': name,
+        'email': email,
+        'address': address,
+        'use': use,
+        'rating': 0,
+      };
+    } else
+      // User Entry
+      postData = {
+        'name': name,
+        'email': email,
+        'address': address,
+        'use': use,
+      };
     final _email = email.split('.');
     final Map<String, Map> updates = {};
     updates['${_email[0]}'] = postData;

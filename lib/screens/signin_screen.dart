@@ -29,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _email_validate = GlobalKey<FormState>();
   // ignore: non_constant_identifier_names
   final _password_validate = GlobalKey<FormState>();
-  final profileController = Get.put(ProfileController());
+  final profileController = Get.find<ProfileController>();
   bool loader = false;
   int index = 0;
   int signUp = 1;
@@ -63,69 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(_size.width * 0.1,
-                        _size.height * 0.03, _size.width * 0.1, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              index = 0;
-                              _email.clear();
-                              _password.clear();
-                              _name.clear();
-                              _rememberMe = false;
-                            });
-                          },
-                          child: Text('Hire',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: index == 0
-                                      ? FontWeight.w500
-                                      : FontWeight.w300
-                                  //decoration: TextDecoration.underline
-                                  )),
-                        ),
-                        SizedBox(
-                          width: _size.width * 0.08,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              index = 1;
-                              _email.clear();
-                              _password.clear();
-                              _name.clear();
-                              _rememberMe = false;
-                            });
-                          },
-                          child: Text('Sell',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: index == 1
-                                      ? FontWeight.w500
-                                      : FontWeight.w300
-                                  //decoration: TextDecoration.underline
-                                  )),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        index == 0 ? _size.width * 0.656 : _size.width * 0.81,
-                        0,
-                        0,
-                        0),
-                    child: const Text('_______'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(_size.width * 0.1,
-                        _size.height * 0.1, _size.width * 0.2, 0),
+                        _size.height * 0.2, _size.width * 0.2, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

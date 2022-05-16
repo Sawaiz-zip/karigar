@@ -44,8 +44,7 @@ class NotificationService {
         id,
         title,
         body,
-        tz.TZDateTime.now(tz.getLocation('Topi/Pakistan'))
-            .add(Duration(seconds: seconds)),
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: seconds)),
         const NotificationDetails(
             android: AndroidNotificationDetails('main_channel', 'Main Channel',
                 importance: Importance.max,

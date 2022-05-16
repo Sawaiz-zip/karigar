@@ -11,6 +11,7 @@ import 'package:karigar/models/electrician/machine_model.dart';
 import 'package:karigar/models/electrician/motor_model.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
 import 'package:karigar/screens/location.dart';
+import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/utils/assets.dart';
 
 class Cart extends StatefulWidget {
@@ -322,6 +323,8 @@ class _CartState extends State<Cart> {
                       padding: const EdgeInsets.all(35.0),
                       child: GestureDetector(
                         onTap: () => {
+                          NotificationService().showNotification(
+                              1, "Karigar", "Your request has been posted", 5),
                           sendData(),
                           Navigator.push(
                               context,
