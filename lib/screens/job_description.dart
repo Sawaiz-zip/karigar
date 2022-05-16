@@ -186,6 +186,7 @@ class _JobDescriptionState extends State<JobDescription> {
 
   void acceptJob() {
     late Map<String, String> postData = {};
+    requestsController.freelancerEmail = profileController.email;
     postData = {
       "Consumer Email": requestsController.email,
       "Freelancer Email": profileController.email

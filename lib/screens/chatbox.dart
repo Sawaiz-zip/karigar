@@ -17,7 +17,9 @@ class ChatBox extends StatefulWidget {
 
 class _ChatBoxState extends State<ChatBox> {
   TextEditingController _messageController = TextEditingController();
+  String? text;
   bool _change = false;
+  List<Widget> messages = [];
   @override
   void initState() {
     _messageController.addListener(() {
@@ -36,105 +38,143 @@ class _ChatBoxState extends State<ChatBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          widget.name,
-          style: TextStyle(
-              fontFamily: 'Poppins', fontSize: 24, fontWeight: FontWeight.w400),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            widget.name,
+            style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 24,
+                fontWeight: FontWeight.w400),
+          ),
+          centerTitle: true,
+          backgroundColor: Color.fromRGBO(143, 127, 153, 1),
+          actions: [
+            IconButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Payment())),
+                icon: Text(
+                  "Pay",
+                  style: TextStyle(fontFamily: 'Poppins'),
+                ))
+          ],
         ),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(143, 127, 153, 1),
-        actions: [
-          IconButton(onPressed: () {}, icon: Image.asset(Assets.helpWhite))
-        ],
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                  child: ListView.builder(
+                itemCount: messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return messages[index];
+                },
+              )),
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Container(
+                  height: 45,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(24),
+                    color: Color.fromRGBO(241, 240, 244, 1),
+                    elevation: 20,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                            ),
+                            child: SizedBox(
+                              width: 250,
+                              child: TextField(
+                                onChanged: ((value) {
+                                  text = _messageController.text;
+                                  if (value.isEmpty)
+                                    setState(() {
+                                      _change = false;
+                                    });
+                                  else
+                                    _change = true;
+                                }),
+                                controller: _messageController,
+                                cursorColor: Colors.grey,
+                                decoration: InputDecoration.collapsed(
+                                    hintText: 'Type message',
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300)),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                              onTap: () {},
+                              child: Image.asset(Assets.emojiCoverBlack)),
+                          _change
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _messageController.clear();
+                                          writeMessage();
+                                        });
+                                      },
+                                      child: Image.asset(Assets.sendBlack)),
+                                )
+                              : SizedBox(),
+                        ]),
+                  ),
+                ),
+              )
+            ]),
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+    );
+  }
+
+  void writeMessage() {
+    setState(() {
+      messages.add(
         Wrap(
           direction: Axis.horizontal,
-          alignment: WrapAlignment.center,
+          alignment: WrapAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
                 height: 40,
-                width: 120,
+                width: MediaQuery.of(context).size.width,
                 child: Material(
                   borderRadius: BorderRadius.circular(26),
                   color: Color.fromRGBO(241, 240, 244, 1),
                   child: TextButton(
                     style: TextButton.styleFrom(
                         primary: Colors.transparent,
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
                         onSurface: Colors.transparent),
                     child: Text(
-                      'Pay Freelancer',
+                      text!,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w400),
                     ),
-                    onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Payment())),
+                    onPressed: () => {},
                   ),
                 ),
               ),
             )
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Container(
-            height: 45,
-            child: Material(
-              borderRadius: BorderRadius.circular(24),
-              color: Color.fromRGBO(241, 240, 244, 1),
-              elevation: 20,
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                  ),
-                  child: SizedBox(
-                    width: 250,
-                    child: TextField(
-                      onChanged: ((value) {
-                        if (value.isEmpty)
-                          setState(() {
-                            _change = false;
-                          });
-                        else
-                          _change = true;
-                      }),
-                      controller: _messageController,
-                      cursorColor: Colors.grey,
-                      decoration: InputDecoration.collapsed(
-                          hintText: 'Type message',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300)),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                    onTap: () {}, child: Image.asset(Assets.emojiCoverBlack)),
-                _change
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: GestureDetector(
-                            onTap: () {}, child: Image.asset(Assets.sendBlack)),
-                      )
-                    : SizedBox(),
-              ]),
-            ),
-          ),
-        )
-      ]),
-    );
+      );
+    });
+    print(messages);
   }
 }

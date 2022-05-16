@@ -6,4 +6,5 @@ class RequestsController extends GetxController {
   var user;
   var requests;
   var email;
+  var freelancerEmail;
 }

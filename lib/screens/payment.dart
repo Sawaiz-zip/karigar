@@ -8,9 +8,11 @@ import 'package:karigar/expiry_date_formatter.dart';
 import 'package:karigar/models/electrician/tv_model.dart';
 import 'package:karigar/screens/customer_feedback.dart';
 import 'package:karigar/screens/home_screen.dart';
+import 'package:karigar/screens/notification_service.dart';
 import 'package:karigar/utils/assets.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart';
 import '../models/electrician/fridge_model.dart';
 import '../models/electrician/machine_model.dart';
 import '../models/electrician/motor_model.dart';
@@ -33,7 +35,7 @@ class _PaymentState extends State<Payment> {
   int subTotal = 0;
   List cartContent = [fridgeContent, motorContent, machineContent, tvContent];
   late final CreditCard testCard;
-  // late tz.TZDateTime dateTime;
+  late TZDateTime dateTime;
   @override
   void initState() {
     super.initState();
@@ -201,16 +203,6 @@ class _PaymentState extends State<Payment> {
                             index < cartContent[cartCounter].length;
                             index++)
                           cartContent[cartCounter][index].counter = 0;
-                      // dateTime = await NotificationService()
-                      //     .timeCheck(10)
-                      //     .whenComplete(
-                      //       () => NotificationService().showNotification(
-                      //           1,
-                      //           'Karigar',
-                      //           'Work has been posted. Stay tuned!',
-                      //           10,
-                      //           dateTime),
-                      //     );
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
