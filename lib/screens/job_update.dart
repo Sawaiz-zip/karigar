@@ -27,7 +27,6 @@ class _JobUpdateState extends State<JobUpdate> {
     request.onValue.listen((DatabaseEvent event) {
       requests = event.snapshot.value as Map;
       getKeysFromRequests(requests);
-      print('asda');
       setState(() {
         show = true;
       });
