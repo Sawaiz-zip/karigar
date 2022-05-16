@@ -47,6 +47,7 @@ class _CartState extends State<Cart> {
             int.parse(cartContent[i][j].counter.toString());
       }
     }
+    cartController.totalAmount = subTotal + visitingFee;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -366,14 +367,18 @@ class _CartState extends State<Cart> {
   void sendData() async {
     List title = [];
     List amount = [];
+    List description = [];
     List counter = [];
+    cartController.cartCounter = 0;
     int timeCount = 0;
     for (int cartCounter = 0; cartCounter < cartContent.length; cartCounter++)
       for (int index = 0; index < cartContent[cartCounter].length; index++)
         if (cartContent[cartCounter][index].counter != 0) {
+          cartController.cartCounter++;
           title.add(cartContent[cartCounter][index].title);
           amount.add(cartContent[cartCounter][index].amount);
           counter.add(cartContent[cartCounter][index].counter);
+          description.add(cartContent[cartCounter][index].description);
           timeCount++;
         }
     late List<Map<String, String>> postData = [];
@@ -383,7 +388,8 @@ class _CartState extends State<Cart> {
       postData.add({
         "title": title[i],
         "amount": amount[i].toString(),
-        "counter": counter[i].toString()
+        "counter": counter[i].toString(),
+        "description": description[i].toString(),
       });
     }
     print(postData);

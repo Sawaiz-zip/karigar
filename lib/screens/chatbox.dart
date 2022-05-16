@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karigar/screens/customer_feedback.dart';
+import 'package:karigar/screens/payment.dart';
 
 import 'package:karigar/utils/assets.dart';
 
@@ -70,17 +71,15 @@ class _ChatBoxState extends State<ChatBox> {
                         shadowColor: Colors.transparent,
                         onSurface: Colors.transparent),
                     child: Text(
-                      'Rate Freelancer',
+                      'Pay Freelancer',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
                           color: Colors.black,
                           fontWeight: FontWeight.w400),
                     ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CustomerFeedback())),
+                    onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Payment())),
                   ),
                 ),
               ),

@@ -53,6 +53,13 @@ dependencies:
   firebase_auth: ^3.3.17
   firebase_core: ^1.16.0
   sliding_up_panel: ^2.0.0+1
+  flutter_signin_button: ^2.0.0
+  font_awesome_flutter: ^9.1.0
+  intl_phone_number_input: ^0.7.0+2
+  flutter_otp: ^0.3.2
+  pin_entry_text_field: ^0.1.4
+  provider: ^5.0.0
+  dio: ^4.0.0
   
 dev_dependencies:
 flutter_icons:
